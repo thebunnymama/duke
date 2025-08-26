@@ -1,3 +1,8 @@
+/**
+ * Instantiate main objects (only UI for now)
+ * Start chatbot loop
+ */
+
 public class MeeBot {
 
     private final UI ui;
@@ -8,9 +13,21 @@ public class MeeBot {
     }
 
     public void run() {
+        // Level-0: Greet
         ui.displayWelcome();
-        ui.displayMessage("     MeeBot: Mee is at Lvl 0 so I only know how to say hi and bye for now");
-        ui.displayBye();
+
+        while (true) {
+            String userInput = ui.readUserInput();
+
+            // Level-1: Exit program when user says bye
+            if (userInput.equalsIgnoreCase("bye")) {
+                ui.displayBye();
+                break;
+            }
+
+            // Level-1: echo back user's input
+            ui.displayUserMessage(userInput);
+        }
     }
 
     public static void main(String[] args) {
