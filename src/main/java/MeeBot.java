@@ -1,15 +1,21 @@
+import manager.TaskManager;
+import task.Task;
+import ui.UserInterface;
+
 /**
- * Instantiate main objects (only UI for now)
+ * Instantiate main objects (UI, TaskManager for now)
  * Start chatbot loop
  */
 
 public class MeeBot {
 
-    private final UI ui;
+    private final UserInterface ui;
+    private final TaskManager tm;
 
     // Constructor
     public MeeBot() {
-        this.ui = new UI();
+        this.ui = new UserInterface();
+        this.tm = new TaskManager();
     }
 
     public void run() {
@@ -19,14 +25,21 @@ public class MeeBot {
         while (true) {
             String userInput = ui.readUserInput();
 
-            // Level-1: Exit program when user says bye
+            // Level-1: exit program when user says bye
             if (userInput.equalsIgnoreCase("bye")) {
                 ui.displayBye();
                 break;
-            }
 
-            // Level-1: echo back user's input
-            ui.displayUserMessage(userInput);
+            // Level-2: retrieves all task
+            } else if (userInput.equalsIgnoreCase("list")) {
+                ui.displayTaskList(tm);
+
+            } else {
+                // Level-2: Treat everything as a new task
+                Task task = new Task(userInput);
+                tm.addTask(task);
+                ui.displayAddTask(task);
+            }
         }
     }
 
