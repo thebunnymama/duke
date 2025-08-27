@@ -3,34 +3,33 @@
  * Handles formatting and printing for MeeBot's output
  */
 
-package output;
+package ui;
 
 import message.Message;
 import java.util.*;
 
 
-public class Renderer {
+public class MessageRenderer {
     private final int maxWidth;
     private final int consoleWidth;
 
-    public Renderer(int maxWidth, int consoleWidth) {
+    public MessageRenderer(int maxWidth, int consoleWidth) {
         this.maxWidth = maxWidth;
         this.consoleWidth = consoleWidth;
     }
 
-    // Right-align MeeBot's output
+    // Right-align MeeBot's message in console
     public void render(Message msg) {
         String content = msg.getMessage();
 
-        // Print output right-aligned
-        int labelPadding = consoleWidth - "MeeBot:".length();
-        System.out.println("\n" + " ".repeat(Math.max(labelPadding, 0)) + "MeeBot:");
+        int blockPadding = consoleWidth - maxWidth;
+        System.out.println("\n" + " ".repeat(Math.max(blockPadding, 0)) + "MeeBot:");
 
+        // Print wrapped lines left-aligned at blockPadding
         String[] sentences = content.split("\n");
         for (String sentence : sentences) {
             for (String line : wrapText(sentence)) {
-                int messagePadding = consoleWidth - line.length();
-                System.out.println(" ".repeat(Math.max(messagePadding, 0)) + line);
+                System.out.println(" ".repeat(Math.max(blockPadding, 0)) + line);
             }
         }
     }
