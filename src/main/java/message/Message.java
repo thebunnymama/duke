@@ -1,11 +1,12 @@
 package message;
 
 public interface Message {
-    /**
-     * Gets the content of message
-     * @return the text content of the message
-     */
 
+    /**
+     * Retrieves the message content for UI components
+     *
+     * @return the user-friendly text content of the message
+     */
     String getMessage();
 
 }

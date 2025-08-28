@@ -1,5 +1,8 @@
 package message;
 
+/**
+ * Static welcome message displayed when the application starts.
+ */
 public class WelcomeMessage implements Message {
 
         private static final String WELCOME_CONTENT =

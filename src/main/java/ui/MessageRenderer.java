@@ -18,38 +18,58 @@ public class MessageRenderer {
         this.consoleWidth = consoleWidth;
     }
 
-    // Right-align MeeBot's message in console
+    /**
+     * Renders a message to the console with proper formatting and alignment.
+     * Displays messages in a right-aligned block with "MeeBot:" header.
+     * Handles both line wrapping and preserving original line breaks.
+     *
+     * @param msg The Message object containing the content to display
+     */
     public void render(Message msg) {
         String content = msg.getMessage();
 
+        // Calculate padding to right-align message block within console
         int blockPadding = consoleWidth - maxWidth;
         System.out.println("\n" + " ".repeat(Math.max(blockPadding, 0)) + "MeeBot:");
 
-        // Print wrapped lines left-aligned at blockPadding
+        // Process each line separately to preserve intentional line breaks
         String[] sentences = content.split("\n");
         for (String sentence : sentences) {
+            // Wrap each sentence and print each wrapped line
             for (String line : wrapText(sentence)) {
                 System.out.println(" ".repeat(Math.max(blockPadding, 0)) + line);
             }
         }
     }
 
-    // Text wrap
-    private List<String> wrapText(String msg) {
+    /**
+     * Wraps text to fit within a specified maximum line width.
+     * Breaks text at word boundaries to avoid splitting words across lines.
+     *
+     * @param s The input text to be wrapped
+     * @return A list of strings, each representing a line that fits within maxWidth
+     */
+    private List<String> wrapText(String s) {
         List<String> lines = new ArrayList<>();
-        String[] words = msg.split(" ");
+        String[] words = s.split(" ");    // splits string into individual words
         StringBuilder line = new StringBuilder();
 
         for (String word : words) {
+            // Check if adding this word would exceed max line width
+            // +1 accounts for the space before the word
             if (line.length() + word.length() + 1 > maxWidth) {
+                // Case: current line is full, save it to List and start a new line with this word
                 lines.add(line.toString());
                 line = new StringBuilder(word);
             } else {
+                // Case: word fits into current line, only add a space before appending word if line is not empty
                 if (!line.isEmpty()) line.append(" ");
                 line.append(word);
             }
         }
+        // Add the last line with content
         if (!line.isEmpty()) lines.add(line.toString());
+
         return lines;
     }
 
