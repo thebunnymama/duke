@@ -72,5 +72,4 @@ public class MessageRenderer {
 
         return lines;
     }
-
 }

@@ -23,7 +23,6 @@ public class Task {
         return description;
     }
 
-
     /**
      * Returns whether this task has been completed.
      *
@@ -48,6 +47,12 @@ public class Task {
         isDone = false;
     }
 
-
-
+    /**
+     * Returns a string representation of the task showing its status and description.
+     * Format: "[X] Task description" for completed, "[ ] Task description" for pending
+     */
+    @Override
+    public String toString() {
+        return String.format("[%s] %s", isDone ? "X" : " ", description);
+    }
 }

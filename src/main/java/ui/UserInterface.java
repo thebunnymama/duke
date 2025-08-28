@@ -5,12 +5,8 @@
 package ui;
 
 import manager.TaskManager;
+import message.*;
 import task.Task;
-import message.Message;
-import message.TaskListMessage;
-import message.GoodbyeMessage;
-import message.WelcomeMessage;
-import message.AddTaskMessage;
 
 import java.util.*;
 
@@ -63,7 +59,17 @@ public class UserInterface {
     }
 
     public void displayTaskList(TaskManager tm) {
-        displayMessage(new TaskListMessage(tm));
+        TaskListMessage taskList = new TaskListMessage(tm);
+        displayMessage(taskList);
     }
 
+    public void displayTaskMarkedDone(Task task, int taskIndex) {
+        MarkTaskDoneMessage taskDone = new MarkTaskDoneMessage(task, taskIndex);
+        displayMessage(taskDone);
+    }
+
+    public void displayTaskUnmarked(Task task, int taskIndex) {
+        UnmarkTaskMessage taskUnmarked = new UnmarkTaskMessage(task, taskIndex);
+        displayMessage(taskUnmarked);
+    }
 }

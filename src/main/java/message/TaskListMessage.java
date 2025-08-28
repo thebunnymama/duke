@@ -31,8 +31,8 @@ public class TaskListMessage implements Message {
 
         StringBuilder result = new StringBuilder("Here are your tasks:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get[i];
-            result.append(String.format("%d. %s\n", i + 1, task.getDescription()));
+            Task task = tasks.get(i);
+            result.append(String.format("%d. %s\n", i + 1, task.toString()));
         }
         return result.toString().trim();
 

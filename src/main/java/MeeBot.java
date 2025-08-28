@@ -19,29 +19,76 @@ public class MeeBot {
     }
 
     public void run() {
-        // Level-0: Greet
         ui.displayWelcome();
 
         while (true) {
             String userInput = ui.readUserInput();
-
-            // Level-1: exit program when user says bye
             if (userInput.equalsIgnoreCase("bye")) {
                 ui.displayBye();
                 break;
+            }
+            handleCommand(userInput.trim());
+        }
+    }
 
-            // Level-2: retrieves all task
-            } else if (userInput.equalsIgnoreCase("list")) {
+    /**
+     * Processes user commands and delegates to appropriate handlers
+     */
+    private void handleCommand(String input) {
+        String[] parts = input.split("\\s+", 2);
+        String command = parts[0].toLowerCase();
+
+        switch (command) {
+            case "list":
                 ui.displayTaskList(tm);
+                break;
+            case "mark":
+            case "unmark":
+                handleMarkUnmark(command, parts);
+                break;
+            default:
+                Task t = new Task(input);
+                tm.addTask(t);
+                ui.displayAddTask(t);
+        }
+    }
 
+    /**
+     * Handles both "mark" and "unmark" commands to update task status.
+     */
+    private void handleMarkUnmark(String command, String[] parts) {
+        if (parts.length < 2) {
+            System.out.println("Error, specify task number");
+            return;
+        }
+
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Error, invalid task number format");
+            return;
+        }
+
+        Task task = tm.getTask(taskNumber);
+        if (command.equals("mark")) {
+            if (task.isDone()) {
+                System.out.println("Task is already done: " + task);
             } else {
-                // Level-2: Treat everything as a new task
-                Task task = new Task(userInput);
-                tm.addTask(task);
-                ui.displayAddTask(task);
+                task = tm.markTaskDone(taskNumber);
+                ui.displayTaskMarkedDone(task, taskNumber);
+            }
+
+        } else { // "unmark"
+            if (!task.isDone()) {
+                System.out.println("Task is already unmarked: " + task);
+            } else {
+                task = tm.unmarkTask(taskNumber);
+                ui.displayTaskUnmarked(task, taskNumber);
             }
         }
     }
+
 
     public static void main(String[] args) {
         MeeBot mb = new MeeBot();

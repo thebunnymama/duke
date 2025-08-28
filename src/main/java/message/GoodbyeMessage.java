@@ -12,5 +12,4 @@ public class GoodbyeMessage implements Message {
     public String getMessage() {
         return BYE_CONTENT;
     }
-
 }

@@ -14,5 +14,4 @@ public class WelcomeMessage implements Message {
     public String getMessage() {
         return WELCOME_CONTENT;
     }
-
 }
