@@ -1,9 +1,6 @@
 package task;
 
-public class Task {
-    // Represents a unit of work
-    // Fields: description, isDone
-    // Methods: getDescription(), getTaskStatus(), mark
+public abstract class Task {
 
     private String description;
     private boolean isDone;
@@ -18,6 +15,11 @@ public class Task {
         this.description = description;
         this.isDone = false;    // tasks are incomplete by default
     }
+
+    /**
+     * Gets the type of task - must be implemented by subclasses
+     */
+    public abstract TaskType getTaskType();
 
     public String getDescription() {
         return description;
@@ -48,11 +50,15 @@ public class Task {
     }
 
     /**
-     * Returns a string representation of the task showing its status and description.
-     * Format: "[X] Task description" for completed, "[ ] Task description" for pending
+     * Returns a string representation showing task prefix, status and description.
+     * This information is common for all tasks.
+     * Format: "[TaskPrefix][X] Task description" for completed, "[TaskPrefix][ ] Task description" for pending
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s", isDone ? "X" : " ", description);
+        return String.format("[%s][%s] %s",
+                getTaskType().getTaskPrefix(),
+                isDone ? "X" : " ",
+                description);
     }
 }

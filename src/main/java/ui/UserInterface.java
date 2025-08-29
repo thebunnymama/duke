@@ -4,9 +4,9 @@
 
 package ui;
 
-import manager.TaskManager;
 import message.*;
 import task.Task;
+import manager.TaskManager;
 
 import java.util.*;
 
@@ -53,8 +53,8 @@ public class UserInterface {
         displayMessage(new GoodbyeMessage());
     }
 
-    public void displayAddTask(Task task) {
-        AddTaskMessage taskAdded = new AddTaskMessage(task);
+    public void displayAddTask(Task task, TaskManager tm) {
+        AddTaskMessage taskAdded = new AddTaskMessage(task, tm);
         displayMessage(taskAdded);
     }
 

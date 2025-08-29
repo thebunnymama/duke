@@ -65,6 +65,13 @@ public class TaskManager {
         return task;
     }
 
+    /**
+     * Provides the total number of tasks stored in the task list.
+     * The count includes both completed and pending tasks.
+     */
+     public int getTotalTasks() {
+        return taskList.size();
+    }
 
     /**
      * Utility method to validate the given index is within valid range of task list.

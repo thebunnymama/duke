@@ -1,5 +1,8 @@
 import manager.TaskManager;
+import task.DeadlineTask;
+import task.EventTask;
 import task.Task;
+import task.TodoTask;
 import ui.UserInterface;
 
 /**
@@ -46,10 +49,63 @@ public class MeeBot {
             case "unmark":
                 handleMarkUnmark(command, parts);
                 break;
+            case "todo":
+            case "deadline":
+            case "event":
+                handleAddTask(input);
+                break;
             default:
-                Task t = new Task(input);
-                tm.addTask(t);
-                ui.displayAddTask(t);
+                System.out.println("Unknown task type: " + command);
+        }
+    }
+
+    /**
+     * Handles creation of correct task (todo, deadline or event).
+     */
+    private void handleAddTask(String input) {
+        String[] parts = input.split("\\s+", 2);
+
+        if (parts.length < 2) {
+            System.out.println("Error: Missing task description");
+            return;
+        }
+
+        String command = parts[0].toLowerCase();
+        String details = parts[1].trim();
+
+        switch (command) {
+            case "todo":
+                Task todo = new TodoTask(details);
+                tm.addTask(todo);
+                ui.displayAddTask(todo, tm);
+                break;
+
+            case "deadline":
+                // Expect format: description /by dateTime
+                String[] deadlineParts = details.split("\\s*/by\\s*", 2);
+                if (deadlineParts.length < 2) {
+                    System.out.println("Error: Deadline task must have '/by <dateTime>'");
+                    return;
+                }
+                Task deadline = new DeadlineTask(deadlineParts[0], deadlineParts[1]);
+                tm.addTask(deadline);
+                ui.displayAddTask(deadline, tm);
+                break;
+
+            case "event":
+                // Expect format: description /from dateTime
+                String[] eventParts = details.split("\\s*/from\\s*", 2);
+                if (eventParts.length < 2) {
+                    System.out.println("Error: Event task must have '/from <dateTime>'");
+                    return;
+                }
+                Task event = new EventTask(eventParts[0], eventParts[1]);
+                tm.addTask(event);
+                ui.displayAddTask(event, tm);
+                break;
+
+            default:
+                System.out.println("Unknown task type: " + command);
         }
     }
 
