@@ -20,18 +20,13 @@ public class UserInterface {
         this.renderer = new MessageRenderer(MAX_WIDTH, CONSOLE_WIDTH);
     }
 
-
-    // In main, readUserInput() pass the raw string typed by the user
-    // Here, that string is wrapped in a Message object and
-    // Passed to Renderer via displayMessage to extract the content of message
-
     public String readUserInput() {
         System.out.print("You: ");
         return sc.nextLine().trim();
     }
 
     // Calls Renderer to display rendered message
-    private void displayMessage(Message msg) {
+    public void displayMessage(Message msg) {
         renderer.render(msg);
     }
 
@@ -49,27 +44,4 @@ public class UserInterface {
         displayMessage(new WelcomeMessage());
     }
 
-    public void displayBye() {
-        displayMessage(new GoodbyeMessage());
-    }
-
-    public void displayAddTask(Task task, TaskManager tm) {
-        AddTaskMessage taskAdded = new AddTaskMessage(task, tm);
-        displayMessage(taskAdded);
-    }
-
-    public void displayTaskList(TaskManager tm) {
-        TaskListMessage taskList = new TaskListMessage(tm);
-        displayMessage(taskList);
-    }
-
-    public void displayTaskMarkedDone(Task task, int taskIndex) {
-        MarkTaskDoneMessage taskDone = new MarkTaskDoneMessage(task, taskIndex);
-        displayMessage(taskDone);
-    }
-
-    public void displayTaskUnmarked(Task task, int taskIndex) {
-        UnmarkTaskMessage taskUnmarked = new UnmarkTaskMessage(task, taskIndex);
-        displayMessage(taskUnmarked);
-    }
 }
