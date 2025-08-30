@@ -54,6 +54,7 @@ public class CommandProcessor {
             case "todo" -> new AddTodoCmd(taskManager, args);
             case "deadline" -> new AddDeadlineCmd(taskManager, args);
             case "event" -> new AddEventCmd(taskManager, args);
+            case "delete" -> new DeleteTaskCmd(taskManager, args);
             case "mark" -> new UpdateTaskStatusCmd(taskManager, args, true);
             case "unmark" -> new UpdateTaskStatusCmd(taskManager, args, false);
             case "bye" -> new ExitCmd();

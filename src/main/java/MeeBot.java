@@ -30,7 +30,6 @@ public class MeeBot {
                 if (cmd.isExit()) {
                     break;
                 }
-
             } catch (RuntimeException e) {
                 ui.displayMessage(new ErrorMessage("Oops, something went wrong! Please try again."));
             }

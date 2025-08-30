@@ -1,6 +1,5 @@
 package manager;
 
-import message.Message;
 import task.Task;
 
 import java.util.*;
@@ -41,28 +40,36 @@ public class TaskManager {
      * Marks a task as completed by index (1-based for user display).
      *
      * @param userIndex 1-based index as provided by user
-     * @return Modified task object for caller to handle
      */
-    public Task markTaskDone(int userIndex) {
+    public void markTaskDone(int userIndex) {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
         Task task = taskList.get(actualIndex);
         task.markAsDone();
-        return task;
     }
 
     /**
-     * Unmarks a task by index (1-based for user display).
+     * Unmarks a completed task by index (1-based for user display).
      *
      * @param userIndex 1-based index as provided by user
-     * @return Modified task object for caller to handle
      */
-    public Task unmarkTask(int userIndex) {
+    public void unmarkTask(int userIndex) {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
         Task task = taskList.get(actualIndex);
         task.markAsUndone();
-        return task;
+    }
+
+    /**
+     * Removes a task by index (1-based for user display).
+     *
+     * @param userIndex 1-based index as provided by user
+     */
+    public void deleteTask(int userIndex) {
+        int actualIndex = userIndex - 1;    // convert to 0-based index
+        validateIndex(actualIndex);
+        Task task = taskList.get(actualIndex);
+        taskList.remove(task);
     }
 
     /**
