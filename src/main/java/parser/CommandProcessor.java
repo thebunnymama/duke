@@ -4,13 +4,14 @@ import command.*;
 import manager.TaskManager;
 import message.ErrorMessage;
 
+import java.util.Map;
+
 
 /**
- * Central processor for parsing and creating user commands.
+ * Central processor for parsing user commands.
  * Responsibilities:
  * - Parse raw user input into command name and arguments
  * - Look up appropriate command based on command name
- * - Create and return executable Command objects
  * - Handle parsing errors gracefully
  */
 public class CommandProcessor {
@@ -26,7 +27,6 @@ public class CommandProcessor {
         if (taskManager == null) {
             throw new IllegalArgumentException("TaskManager cannot be null");
         }
-
         this.taskManager = taskManager;
     }
 
@@ -42,20 +42,15 @@ public class CommandProcessor {
         }
 
         // Split input: "deadline finish reading /by Sunday" → ["deadline", "finish reading /by Sunday"]
-        String[] parts = input.trim().split("\\s+", 2);
-        String command = parts[0].toLowerCase();
-        String args = parts.length > 1 ? parts[1] : "";
+        String[] tokens = input.trim().split("\\s+", 2);
+        String command = tokens[0].toLowerCase();
+        String args = tokens.length > 1 ? tokens[1] : "";
 
-        return switch (command) {
-            case "list" -> new ListCmd(taskManager);
-            case "todo" -> new AddTodoCmd(taskManager, args);
-            case "deadline" -> new AddDeadlineCmd(taskManager, args);
-            case "event" -> new AddEventCmd(taskManager, args);
-            case "delete" -> new DeleteTaskCmd(taskManager, args);
-            case "mark" -> new UpdateTaskStatusCmd(taskManager, args, true);
-            case "unmark" -> new UpdateTaskStatusCmd(taskManager, args, false);
-            case "bye" -> new ExitCmd();
-            default -> () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, input));
-        };
+        CommandType cmdType = CommandType.fromKeyword(command);
+
+        if (cmdType == null) {
+            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, command));
+        }
+        return cmdType.createCommand(taskManager, args);
     }
 }
