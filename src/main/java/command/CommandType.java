@@ -1,14 +1,12 @@
 package command;
 
 import manager.TaskManager;
-import message.ErrorMessage;
 
 import java.util.function.BiFunction;
 
 /**
  * Enum representing all available commands with their factories and help text.
- * Combines command registration, help documentation, and command creation
- * in a single, maintainable location.
+ * Combines command registration, help documentation, and command creation in a single, maintainable location.
  */
 public enum CommandType {
     LIST("list", "Displays all tasks",
@@ -37,6 +35,9 @@ public enum CommandType {
     UNMARK("unmark", "Marks a task as pending. " +
             "Format: unmark <index>",
                 (tm, args) -> new UpdateTaskStatusCmd(tm, args, false)),
+
+    HELP("help", "Display help instructions",
+            (tm, args) -> new HelpCmd()),
 
     BYE("bye", "Exits the chatbot",
             (tm, args) -> new ExitCmd());
