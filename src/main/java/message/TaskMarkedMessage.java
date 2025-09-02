@@ -16,7 +16,7 @@ public class TaskMarkedMessage implements Message {
 
     @Override
     public String getMessage() {
-        return String.format("Nice! I've marked this task as done:\n%s",
+        return String.format("Power! '%s' accomplished like a true blue Singaporean - efficient and effective!",
                 task.toString());
     }
 }

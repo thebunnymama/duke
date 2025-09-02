@@ -80,6 +80,10 @@ public class TaskManager {
         return taskList.size();
     }
 
+    public boolean isEmpty() {
+        return getTotalTasks() < 1;
+    }
+
     /**
      * Utility method to validate the given index is within valid range of task list.
      *

@@ -4,9 +4,6 @@ import command.*;
 import manager.TaskManager;
 import message.ErrorMessage;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Central processor for parsing and creating user commands.
@@ -37,11 +34,11 @@ public class CommandProcessor {
      * Parses user input and creates the appropriate Command object.
      *
      * @param input raw user input string
-     * @return Command object ready to execute, or ErrorCommand if parsing fails
+     * @return Command object ready to execute, or ErrorMessage if parsing fails
      */
     public Command parseCommand(String input) {
         if (input == null || input.isBlank()) {
-            return () -> new ErrorMessage("Command cannot be empty.");
+            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, input));
         }
 
         // Split input: "deadline finish reading /by Sunday" → ["deadline", "finish reading /by Sunday"]
@@ -58,7 +55,7 @@ public class CommandProcessor {
             case "mark" -> new UpdateTaskStatusCmd(taskManager, args, true);
             case "unmark" -> new UpdateTaskStatusCmd(taskManager, args, false);
             case "bye" -> new ExitCmd();
-            default -> () -> new ErrorMessage("Unknown command: " + command);
+            default -> () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, input));
         };
     }
 }

@@ -11,26 +11,24 @@ import task.Task;
  * Command to add a new event task with a time period.
  */
 public class AddEventCmd extends BaseTaskCommand {
-    private final String args;
 
     public AddEventCmd(TaskManager taskManager, String args) {
-        super(taskManager);
-        this.args = args;
+        super(taskManager, args);
     }
 
     @Override
     public Message execute() {
-        if (args.isBlank()) {
-            return new ErrorMessage("Error: Task description cannot be empty.");
+        if (args == null || args.isBlank()) {
+            return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
         String trimmed = args.trim();
         String[] parts = trimmed.split("\\s*/from\\s*", 2);
 
-        // Expect format: <description> /from <dateTime to dateTime>
+        // Expect format: <description> /from <startTime to endTime>
         if (parts.length < 2 ||
                 parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            return new ErrorMessage("Invalid format.\nEvent requires: <description> /from <start to end>");
+            return new ErrorMessage(ErrorMessage.EVENT_FORMAT);
         }
 
         String description = parts[0].trim();

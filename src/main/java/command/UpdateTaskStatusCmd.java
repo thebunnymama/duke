@@ -13,29 +13,34 @@ import task.Task;
  * and returns appropriate success or error messages.
  */
 public class UpdateTaskStatusCmd extends BaseTaskCommand {
-    private final String taskNumberInput;
     private final boolean markDone;
 
-    public UpdateTaskStatusCmd(TaskManager taskManager, String taskNumberInput, boolean markDone) {
-        super(taskManager);
-        this.taskNumberInput = taskNumberInput;
+    public UpdateTaskStatusCmd(TaskManager taskManager, String args, boolean markDone) {
+        super(taskManager, args);
         this.markDone = markDone;
     }
 
     @Override
     public Message execute() {
-        if (taskNumberInput.isBlank()) {
-            return new ErrorMessage("Mark/unmark command requires task number.\nFormat: mark/unmark <number>");
+        if (taskManager.isEmpty()) {
+            return new ErrorMessage(ErrorMessage.EMPTY_LIST);
+        }
+
+        String taskNumberString = args;
+
+        if (taskNumberString.isBlank()) {
+            return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
         }
 
         try {
-            int taskNumber = Integer.parseInt(taskNumberInput.trim());
+            int taskNumber = Integer.parseInt(taskNumberString.trim());
             Task task = taskManager.getTask(taskNumber);
 
             // Check if task is already in the desired state
             String state = markDone ? "done" : "unmarked";
+            String undo = markDone ? "unmark" : "mark";
             if (markDone == task.isDone()) {
-                return new ErrorMessage("Task is already " + state + ":\n" + task);
+                return new ErrorMessage(String.format(ErrorMessage.TASK_STATE, state, undo, taskNumber));
             }
 
             // Perform the update
@@ -48,9 +53,9 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
             }
 
         } catch (NumberFormatException e) {
-            return new ErrorMessage(taskNumberInput + " is not a valid number. Please provide a valid number");
+            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, taskNumberString));
         } catch (IndexOutOfBoundsException e) {
-            return new ErrorMessage("Task number " + taskNumberInput + " does not exist. Use 'list' to see available tasks.");
+            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, taskNumberString));
         }
     }
 }

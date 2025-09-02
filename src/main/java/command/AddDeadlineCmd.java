@@ -11,17 +11,15 @@ import task.Task;
  * Command to add a new deadline task with a due date.
  */
 public class AddDeadlineCmd extends BaseTaskCommand {
-    private final String args;
 
     public AddDeadlineCmd(TaskManager taskManager, String args) {
-        super(taskManager);
-        this.args = args;
+        super(taskManager, args);
     }
 
     @Override
     public Message execute() {
-        if (args.isBlank()) {
-            return new ErrorMessage("Error: Task description cannot be empty.");
+        if (args == null || args.isBlank()) {
+            return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
         String trimmed = args.trim();
@@ -30,7 +28,7 @@ public class AddDeadlineCmd extends BaseTaskCommand {
         // Expect format: <description> /by <dateTime>
         if (parts.length < 2 ||
                 parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            return new ErrorMessage("Invalid format.\nDeadline requires: <description> /by <date>");
+            return new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
         }
 
         String description = parts[0].trim();

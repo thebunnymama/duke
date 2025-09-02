@@ -14,7 +14,7 @@ public class UserInterface {
     private final Scanner sc = new Scanner(System.in);
     private final MessageRenderer renderer;
     private static final int MAX_WIDTH = 50;      // For MeeBot text wrap
-    private static final int CONSOLE_WIDTH = 90;
+    private static final int CONSOLE_WIDTH = 100;
 
     public UserInterface() {
         this.renderer = new MessageRenderer(MAX_WIDTH, CONSOLE_WIDTH);

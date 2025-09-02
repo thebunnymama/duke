@@ -8,8 +8,10 @@ import manager.TaskManager;
  */
 public abstract class BaseTaskCommand implements Command {
     protected final TaskManager taskManager;
+    protected final String args;
 
-    public BaseTaskCommand(TaskManager taskManager) {
+    public BaseTaskCommand(TaskManager taskManager, String args) {
         this.taskManager = taskManager;
+        this.args = args;
     }
 }

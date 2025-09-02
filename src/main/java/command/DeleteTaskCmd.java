@@ -8,31 +8,34 @@ import task.Task;
  * Command to remove a task from the task list, regardless of its completion status.
  */
 public class DeleteTaskCmd extends BaseTaskCommand {
-    private final String taskNumberInput;
 
-    public DeleteTaskCmd(TaskManager taskManager, String taskNumberInput) {
-        super(taskManager);
-        this.taskNumberInput = taskNumberInput;
+    public DeleteTaskCmd(TaskManager taskManager, String args) {
+        super(taskManager, args);
     }
 
     @Override
     public Message execute() {
-        if (taskNumberInput.isBlank()) {
-            return new ErrorMessage("Delete command requires task number.\nFormat: delete <number>");
+        if (taskManager.isEmpty()) {
+            return new ErrorMessage(ErrorMessage.EMPTY_LIST);
+        }
+
+        String taskNumberString = args;
+
+        if (taskNumberString.isBlank()) {
+            return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
         }
 
         try {
-            int taskNumber = Integer.parseInt(taskNumberInput.trim());
+            int taskNumber = Integer.parseInt(taskNumberString.trim());
             Task task = taskManager.getTask(taskNumber);
 
-            // Perform the deletion
             taskManager.deleteTask(taskNumber);
             return new TaskDeletedMessage(task, taskManager);
 
         } catch (NumberFormatException e) {
-            return new ErrorMessage(taskNumberInput + " is not a valid number. Please provide a valid number");
+            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, taskNumberString));
         } catch (IndexOutOfBoundsException e) {
-            return new ErrorMessage("Task number " + taskNumberInput + " does not exist. Use 'list' to see available tasks.");
+            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, taskNumberString));
         }
     }
 }

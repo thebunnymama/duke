@@ -26,7 +26,8 @@ public class ListTaskMessage implements Message {
         List<Task> tasks = taskManager.getAllTask();
 
         if (tasks.isEmpty()) {
-            return "You have no tasks";
+            return "Your task list is emptier than kopitiam during circuit breaker. " +
+                    "Time to add some tasks before you forget everything!";
         }
 
         StringBuilder result = new StringBuilder("Here are your tasks:\n");

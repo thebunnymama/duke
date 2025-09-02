@@ -11,17 +11,15 @@ import task.TodoTask;
  * Command to add a simple todo task without any date constraints.
  */
 public class AddTodoCmd extends BaseTaskCommand {
-    private final String args;
 
     public AddTodoCmd(TaskManager taskManager, String args) {
-        super(taskManager);
-        this.args = args;
+        super(taskManager, args);
     }
 
     @Override
     public Message execute() {
-        if (args.isBlank()) {
-            return new ErrorMessage("Error: Task description cannot be empty.");
+        if (args == null || args.isBlank()) {
+            return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
         String description = args.trim();

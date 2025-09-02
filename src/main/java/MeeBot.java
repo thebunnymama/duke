@@ -31,7 +31,7 @@ public class MeeBot {
                     break;
                 }
             } catch (RuntimeException e) {
-                ui.displayMessage(new ErrorMessage("Oops, something went wrong! Please try again."));
+                ui.displayMessage(new ErrorMessage("Unexpected system error. This shouldn't happen! Try restarting the program"));
             }
         }
     }

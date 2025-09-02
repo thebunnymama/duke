@@ -23,7 +23,7 @@ public class TaskDeletedMessage implements Message {
 
     @Override
     public String getMessage() {
-        return String.format("Noted. I've removed this task:\n %s\n Now you have %d tasks in the list.",
+        return String.format("Bye bye '%s'! Removed like unwanted beansprouts from your laksa.\nNow you have %d tasks in the list.",
                 task.toString(),
                 taskCount
         );

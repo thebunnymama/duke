@@ -23,7 +23,7 @@ public class TaskAddedMessage implements Message {
 
     @Override
     public String getMessage() {
-        return String.format("Got it. I've added this task:\n %s\n Now you have %d tasks in the list.",
+        return String.format("Added! '%s' is now one of the %d tasks simmering.",
                 task.toString(),
                 taskCount
         );
