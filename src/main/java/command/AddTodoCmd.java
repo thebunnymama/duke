@@ -16,6 +16,11 @@ public class AddTodoCmd extends BaseTaskCommand {
         super(taskManager, args);
     }
 
+    /**
+     * Creates a todo task with the provided String input.
+     *
+     * @return a TaskAddedMessage on success, ErrorMessage if no description is provided
+     */
     @Override
     public Message execute() {
         if (args == null || args.isBlank()) {

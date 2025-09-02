@@ -1,7 +1,7 @@
 package task;
 
 /**
- * Task with a specific date/time
+ * Task with a specific date/time. Time format is preserved as entered by user.
  */
 public class DeadlineTask extends Task {
     private String deadline;
@@ -17,9 +17,7 @@ public class DeadlineTask extends Task {
     }
 
     /**
-     * Returns a string representation of this DeadlineTask.
-     * It includes the common task information from the parent class,
-     * followed by the deadline information in the format "(by: deadline)".
+     * Extends base format with deadline information in the format "(by: deadline)".
      */
     @Override
     public String toString() {

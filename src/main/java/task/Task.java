@@ -1,5 +1,10 @@
 package task;
 
+/**
+ * Base class for all task types.
+ * Tasks are created incomplete and can be toggled between done/undone states.
+ * Provides standardized string representation for display purpose.
+ */
 public abstract class Task {
 
     private String description;
@@ -20,7 +25,7 @@ public abstract class Task {
      * Gets the type of task - must be implemented by subclasses
      */
     public abstract TaskType getTaskType();
-
+    
     public String getDescription() {
         return description;
     }
@@ -43,16 +48,16 @@ public abstract class Task {
    }
 
     /**
-     * Useful for cases where a completed task needs to be reopened.
+     * Reverts a completed task back to incomplete state.
      */
     public void markAsUndone() {
         isDone = false;
     }
 
     /**
-     * Returns a string representation showing task prefix, status and description.
-     * This information is common for all tasks.
-     * Format: "[TaskPrefix][X] Task description" for completed, "[TaskPrefix][ ] Task description" for pending
+     * Returns a common string representation showing task prefix, status and description for all tasks.
+     * Format: "[TaskPrefix][X] Task description" for completed, "[TaskPrefix][ ] Task description" for pending.
+     * Subclasses may extend this format with additional information.
      */
     @Override
     public String toString() {

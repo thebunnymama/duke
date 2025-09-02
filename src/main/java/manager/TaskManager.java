@@ -5,20 +5,22 @@ import task.Task;
 import java.util.*;
 
 /**
- * Manages a collection of tasks with basic CRUD operations.
- * Tasks are stored in insertion order and accessed by index.
+ * Owns the data model and manages task collection with basic CRUD operations.
+ * Tasks are stored in insertion order and accessed by 0-based index internally.
  */
 public class TaskManager {
 
     private final List<Task> taskList = new ArrayList<>();
 
+    /**
+     * Adds task to end of collection.
+     */
     public void addTask(Task task) {
         taskList.add(task);
     }
 
     /**
-     * Returns an unmodifiable view of list of tasks.
-     * The returned list cannot be modified, protecting the internal data structure
+     * Returns read-only view to prevent external modification of internal list
      * while allowing safe iteration and access for UI components.
      */
     public List<Task> getAllTask() {
@@ -37,7 +39,7 @@ public class TaskManager {
     }
 
     /**
-     * Marks a task as completed by index (1-based for user display).
+     * Marks a task as completed by index.
      *
      * @param userIndex 1-based index as provided by user
      */
@@ -49,7 +51,7 @@ public class TaskManager {
     }
 
     /**
-     * Unmarks a completed task by index (1-based for user display).
+     * Unmarks a completed task by index.
      *
      * @param userIndex 1-based index as provided by user
      */
@@ -61,7 +63,7 @@ public class TaskManager {
     }
 
     /**
-     * Removes a task by index (1-based for user display).
+     * Removes a task by index.
      *
      * @param userIndex 1-based index as provided by user
      */
@@ -73,13 +75,17 @@ public class TaskManager {
     }
 
     /**
-     * Provides the total number of tasks stored in the task list.
-     * The count includes both completed and pending tasks.
+     * Returns total number of tasks (complete and pending).
      */
      public int getTotalTasks() {
         return taskList.size();
     }
 
+    /**
+     * Checks if the task list is empty.
+     *
+     * @return true if no task exist
+     */
     public boolean isEmpty() {
         return getTotalTasks() < 1;
     }

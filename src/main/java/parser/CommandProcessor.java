@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 /**
- * Central processor for parsing user commands.
+ * Central processor for parsing user commands into executable Command objects.
  * Responsibilities:
  * - Parse raw user input into command name and arguments
  * - Look up appropriate command based on command name
@@ -31,7 +31,7 @@ public class CommandProcessor {
     }
 
     /**
-     * Parses user input and creates the appropriate Command object.
+     * Splits user input on first whitespace to separate command from arguments.
      *
      * @param input raw user input string
      * @return Command object ready to execute, or ErrorMessage if parsing fails

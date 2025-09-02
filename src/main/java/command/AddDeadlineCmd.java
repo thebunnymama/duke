@@ -16,6 +16,11 @@ public class AddDeadlineCmd extends BaseTaskCommand {
         super(taskManager, args);
     }
 
+    /**
+     * Creates a deadline task from String input: "description /by dateTime"
+     *
+     * @return TaskAddedMessage on success, ErrorMessage on invalid format
+     */
     @Override
     public Message execute() {
         if (args == null || args.isBlank()) {

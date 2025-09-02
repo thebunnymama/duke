@@ -13,6 +13,11 @@ public class DeleteTaskCmd extends BaseTaskCommand {
         super(taskManager, args);
     }
 
+    /**
+     * Validates user input and removes the specified task from the list.
+     *
+     * @return TaskDeletedMessage on success, ErrorMessage on invalid input or task not found
+     */
     @Override
     public Message execute() {
         if (taskManager.isEmpty()) {

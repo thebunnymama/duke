@@ -1,37 +1,45 @@
-/**
- * Purpose: Handles I/O interactions with users
- */
-
 package ui;
 
 import message.*;
-import task.Task;
-import manager.TaskManager;
 
 import java.util.*;
 
+/**
+ * Handles console-based user interactions for MeeBot.
+ * Provides input/output operations with consistent message formatting and display.
+ */
 public class UserInterface {
     private final Scanner sc = new Scanner(System.in);
     private final MessageRenderer renderer;
-    private static final int MAX_WIDTH = 50;      // For MeeBot text wrap
+    private static final int MAX_WIDTH = 60;      // For MeeBot text wrap
     private static final int CONSOLE_WIDTH = 100;
 
     public UserInterface() {
         this.renderer = new MessageRenderer(MAX_WIDTH, CONSOLE_WIDTH);
     }
 
+    /**
+     * Prompts user for input and returns the trimmed response.
+     *
+     * @return user input with leading/trailing whitespace removed
+     */
     public String readUserInput() {
         System.out.print("You: ");
         return sc.nextLine().trim();
     }
 
-    // Calls Renderer to display rendered message
+    /**
+     * Displays a message using the configured renderer for consistent formatting.
+     */
     public void displayMessage(Message msg) {
         renderer.render(msg);
     }
 
+    /**
+     * Shows the welcome screen with ASCII logo and initial greeting.
+     * Logo is displayed only once during application startup.
+     */
     public void displayWelcome() {
-        // Display ASCII logo once as part of welcome message
         String noodleArt = """
                                     ___  ___ _____  _____ ______  _____  _____\s
                                     |  \\/  ||  ___||  ___|| ___ \\|  _  ||_   _|
@@ -43,5 +51,4 @@ public class UserInterface {
         System.out.print(noodleArt);
         displayMessage(new WelcomeMessage());
     }
-
 }

@@ -10,7 +10,6 @@ public class MeeBot {
     private final UserInterface ui;
     private final TaskManager tm;
 
-    // Constructor
     public MeeBot() {
         this.ui = new UserInterface();
         this.tm = new TaskManager();

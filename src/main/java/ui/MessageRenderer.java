@@ -1,29 +1,28 @@
-/**
- * Takes in appropriate message from UI and
- * Handles formatting and printing for MeeBot's output
- */
-
 package ui;
 
 import message.Message;
 import java.util.*;
 
-
+/**
+ * Handles console output formatting for MeeBot responses with right-aligned layout
+ * and automatic text wrapping.
+ */
 public class MessageRenderer {
     private final int maxWidth;
     private final int consoleWidth;
 
+    /**
+     * @param maxWidth maximum characters per line for message content
+     * @param consoleWidth total console width for right-alignment calculation
+     */
     public MessageRenderer(int maxWidth, int consoleWidth) {
         this.maxWidth = maxWidth;
         this.consoleWidth = consoleWidth;
     }
 
     /**
-     * Renders a message to the console with proper formatting and alignment.
      * Displays messages in a right-aligned block with "MeeBot:" header.
-     * Handles both line wrapping and preserving original line breaks.
-     *
-     * @param msg The Message object containing the content to display
+     * Preserves original line breaks while applying word wrapping.
      */
     public void render(Message msg) {
         String content = msg.getMessage();

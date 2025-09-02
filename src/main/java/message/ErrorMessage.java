@@ -1,9 +1,10 @@
 package message;
 
+/**
+ * Error message container with Singaporean-themed text constants.
+ */
 public class ErrorMessage implements Message {
-    /**
-     * Error text constants to provide consistent error messages.
-     */
+
     // Basic validation errors
     public static final String INVALID_COMMAND = "'%s' is not on my menu. I can help with:\ntodo, deadline, event, list, mark, unmark, delete.\nType 'help' for details.";
     public static final String MISSING_DESCRIPTION = "Your description is emptier than a hawker stall at 3am leh! Give mee something to work with after the command.";
@@ -18,7 +19,7 @@ public class ErrorMessage implements Message {
     public static final String INVALID_NUMBER_FORMAT = "Eh friend, '%s' is not a number lah. Task numbers are whole numbers like 1, 2, 3.";
 
     // Task status errors
-    public static final String TASK_STATE = "Task is already %s, no point doing it again what! Try '%s %d' instead.";
+    public static final String TASK_STATE = "Task is already %s, no point doing it again what!\nTry '%s %d' instead.";
 
     private final String message;
 

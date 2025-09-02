@@ -6,21 +6,18 @@ import task.Task;
 import java.util.List;
 
 /**
- * Displays a formatted list of all tasks with numbering.
- * Generates content dynamically based on current task state.
+ * Dynamic task listing with 1-based numbering for user display.
  */
 public class ListTaskMessage implements Message {
     private final TaskManager taskManager;
 
-    /**
-     * Creates a task list message.
-     *
-     * @param taskManager the task manager containing tasks to display
-     */
     public ListTaskMessage(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
 
+    /**
+     * Returns a formatted numbered task list or empty list message if no tasks exist
+     */
     @Override
     public String getMessage() {
         List<Task> tasks = taskManager.getAllTask();

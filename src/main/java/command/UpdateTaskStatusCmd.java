@@ -8,9 +8,7 @@ import message.TaskUnmarkedMessage;
 import task.Task;
 
 /**
- * Command to mark or unmark a task as done.
- * It validates input, checks current state to prevent redundant operations,
- * and returns appropriate success or error messages.
+ * Command to mark or unmark a task as done by task number.
  */
 public class UpdateTaskStatusCmd extends BaseTaskCommand {
     private final boolean markDone;
@@ -20,6 +18,12 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
         this.markDone = markDone;
     }
 
+    /**
+     * Validates input, checks current state to prevent redundant operations, and
+     * updates the completion status of the specified task.
+     *
+     * @return TaskMarkedMessage or TaskUnmarkedMessage on success, ErrorMessage on failure
+     */
     @Override
     public Message execute() {
         if (taskManager.isEmpty()) {

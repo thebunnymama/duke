@@ -1,8 +1,7 @@
 package task;
 
 /**
- * Represents the different types of tasks supported by MeeBot.
- * Each type has different behaviors and display formats.
+ * Task type enumeration with single-character prefixes for display.
  */
 public enum TaskType {
     TODO("T"),

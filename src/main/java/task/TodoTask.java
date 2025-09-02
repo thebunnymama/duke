@@ -1,7 +1,7 @@
 package task;
 
 /**
- * Simple todo task without any date/time constraints
+ * Simple task without date/time constraints.
  */
 public class TodoTask extends Task {
     public TodoTask(String description) {

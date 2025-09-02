@@ -4,9 +4,7 @@ import message.GoodbyeMessage;
 import message.Message;
 
 /**
- * Command to terminate the application session.
- * When executed, a goodbye message is returned and signals that the app
- * should exit by returning a true from isExit().
+ * Command to terminate the application session with goodbye message.
  */
 public class ExitCmd implements Command {
 
@@ -15,6 +13,11 @@ public class ExitCmd implements Command {
         return new GoodbyeMessage();
     }
 
+    /**
+     * Signals that the application should terminate after this command.
+     *
+     * @return true to indicate application exit
+     */
     @Override
     public boolean isExit() {
         return true;

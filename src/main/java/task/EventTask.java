@@ -1,7 +1,7 @@
 package task;
 
 /**
- * Task with a start and end date/time
+ * Task with a start and end date/time. Time format is preserved as entered by user.
  */
 public class EventTask extends Task {
     private String eventTime;
@@ -17,9 +17,7 @@ public class EventTask extends Task {
     }
 
     /**
-     * Returns a string representation of this DeadlineTask.
-     * It includes the common task information from the parent class,
-     * followed by the deadline information in the format "(by: deadline)".
+     * Extends base format with event information in the format "(by: deadline)".
      */
     @Override
     public String toString() {

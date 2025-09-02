@@ -3,6 +3,10 @@ package message;
 import command.Command;
 import command.CommandType;
 
+/**
+ * Generates a formatted help menu showing available commands and their descriptions.
+ * Excludes HELP command to prevent recursion.
+ */
 public class HelpMessage implements Message {
     private final CommandType[] commands;
 
@@ -10,10 +14,6 @@ public class HelpMessage implements Message {
         this.commands = commands;
     }
 
-    /**
-     * Generates a formatted help text showing available commands and their descriptions.
-     * Excludes HELP command to prevent recursion.
-     */
     @Override
     public String getMessage() {
         StringBuilder content = new StringBuilder("Here's what mee can do for you:\n");

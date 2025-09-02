@@ -16,6 +16,11 @@ public class AddEventCmd extends BaseTaskCommand {
         super(taskManager, args);
     }
 
+    /**
+     * Creates an event task from String input: "description /from dateTime /to dateTime"
+     *
+     * @return TaskAddedMessage on success, ErrorMessage on invalid format
+     */
     @Override
     public Message execute() {
         if (args == null || args.isBlank()) {

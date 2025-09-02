@@ -56,26 +56,11 @@ public enum CommandType {
         return keyword;
     }
 
-    public String getHelpText() {
-        return helpText;
-    }
-
     /**
-     * Creates a command instance using this enum's factory.
+     * Maps user input to CommandType enum (case-insensitive).
      *
-     * @param tm the task manager for command execution
-     * @param args parsed command arguments
-     * @return executable Command object
-     */
-    public Command createCommand(TaskManager tm, String args) {
-        return cmdFactory.apply(tm, args);
-    }
-
-    /**
-     * Finds CommandType by keyword (case-insensitive).
-     *
-     * @param keyword the command keyword to look up
-     * @return CommandType if found, null if not found
+     * @param keyword the user input command to look up
+     * @return matching CommandType if found or null if not found
      */
     public static CommandType fromKeyword(String keyword) {
         for (CommandType type : values()) {
@@ -84,5 +69,20 @@ public enum CommandType {
             }
         }
         return null; // Not found
+    }
+
+    public String getHelpText() {
+        return helpText;
+    }
+
+    /**
+     * Factory method to create appropriate Command instance.
+     *
+     * @param tm the task manager for command execution
+     * @param args parsed command arguments
+     * @return executable Command object
+     */
+    public Command createCommand(TaskManager tm, String args) {
+        return cmdFactory.apply(tm, args);
     }
 }
