@@ -27,12 +27,12 @@ public class ListTaskMessage implements Message {
                     "Time to add some tasks before you forget everything!";
         }
 
-        StringBuilder result = new StringBuilder("Here are your tasks:\n");
+        // Builds numbered task list with 1-based indexing
+        StringBuilder content = new StringBuilder("Here are your tasks:\n");
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
-            result.append(String.format("%d. %s\n", i + 1, task.toString()));
+            content.append(String.format("%d. %s\n", i + 1, task.toString()));
         }
-        return result.toString().trim();
-
+        return content.toString().trim();
     }
 }

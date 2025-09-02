@@ -30,14 +30,12 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
             return new ErrorMessage(ErrorMessage.EMPTY_LIST);
         }
 
-        String taskNumberString = args;
-
-        if (taskNumberString.isBlank()) {
+        if (args == null || args.isBlank()) {
             return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
         }
 
         try {
-            int taskNumber = Integer.parseInt(taskNumberString.trim());
+            int taskNumber = Integer.parseInt(args.trim());
             Task task = taskManager.getTask(taskNumber);
 
             // Check if task is already in the desired state
@@ -57,9 +55,9 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
             }
 
         } catch (NumberFormatException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, taskNumberString));
+            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, args));
         } catch (IndexOutOfBoundsException e) {
-            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, taskNumberString));
+            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, args));
         }
     }
 }

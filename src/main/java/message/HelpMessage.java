@@ -1,6 +1,5 @@
 package message;
 
-import command.Command;
 import command.CommandType;
 
 /**
@@ -22,7 +21,6 @@ public class HelpMessage implements Message {
         for (CommandType command : commands) {
             maxKeywordLength = Math.max(maxKeywordLength, command.getKeyword().length());
         }
-        int indent = maxKeywordLength + 3;
 
         for (CommandType command : commands) {
             // Skip display for help command
