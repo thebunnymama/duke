@@ -1,7 +1,7 @@
 package command;
 
 import manager.TaskManager;
-import message.AddTaskMessage;
+import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
 import task.EventTask;
@@ -10,7 +10,7 @@ import task.Task;
 /**
  * Command to add a new event task with a time period.
  */
-public class AddEventCmd extends AddTaskCommand {
+public class AddEventCmd extends BaseTaskCommand {
     private final String args;
 
     public AddEventCmd(TaskManager taskManager, String args) {
@@ -30,7 +30,7 @@ public class AddEventCmd extends AddTaskCommand {
         // Expect format: <description> /from <dateTime to dateTime>
         if (parts.length < 2 ||
                 parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            return new ErrorMessage("Invalid format. Event requires: <description> /from <start to end>");
+            return new ErrorMessage("Invalid format.\nEvent requires: <description> /from <start to end>");
         }
 
         String description = parts[0].trim();
@@ -38,6 +38,6 @@ public class AddEventCmd extends AddTaskCommand {
 
         Task event = new EventTask(description, dateString);
         taskManager.addTask(event);
-        return new AddTaskMessage(event, taskManager);
+        return new TaskAddedMessage(event, taskManager);
     }
 }

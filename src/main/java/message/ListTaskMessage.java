@@ -9,7 +9,7 @@ import java.util.List;
  * Displays a formatted list of all tasks with numbering.
  * Generates content dynamically based on current task state.
  */
-public class TaskListMessage implements Message {
+public class ListTaskMessage implements Message {
     private final TaskManager taskManager;
 
     /**
@@ -17,7 +17,7 @@ public class TaskListMessage implements Message {
      *
      * @param taskManager the task manager containing tasks to display
      */
-    public TaskListMessage(TaskManager taskManager) {
+    public ListTaskMessage(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
 

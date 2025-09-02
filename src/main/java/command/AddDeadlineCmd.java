@@ -1,7 +1,7 @@
 package command;
 
 import manager.TaskManager;
-import message.AddTaskMessage;
+import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
 import task.DeadlineTask;
@@ -10,7 +10,7 @@ import task.Task;
 /**
  * Command to add a new deadline task with a due date.
  */
-public class AddDeadlineCmd extends AddTaskCommand {
+public class AddDeadlineCmd extends BaseTaskCommand {
     private final String args;
 
     public AddDeadlineCmd(TaskManager taskManager, String args) {
@@ -30,7 +30,7 @@ public class AddDeadlineCmd extends AddTaskCommand {
         // Expect format: <description> /by <dateTime>
         if (parts.length < 2 ||
                 parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            return new ErrorMessage("Invalid format. Deadline requires: <description> /by <date>");
+            return new ErrorMessage("Invalid format.\nDeadline requires: <description> /by <date>");
         }
 
         String description = parts[0].trim();
@@ -38,6 +38,6 @@ public class AddDeadlineCmd extends AddTaskCommand {
 
         Task deadline = new DeadlineTask(description, dateString);
         taskManager.addTask(deadline);
-        return new AddTaskMessage(deadline, taskManager);
+        return new TaskAddedMessage(deadline, taskManager);
     }
 }

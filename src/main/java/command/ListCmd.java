@@ -2,7 +2,7 @@ package command;
 
 import manager.TaskManager;
 import message.Message;
-import message.TaskListMessage;
+import message.ListTaskMessage;
 
 /**
  * Command to display all tasks in MeeBot.
@@ -16,6 +16,6 @@ public class ListCmd implements Command {
 
     @Override
     public Message execute() {
-        return new TaskListMessage(taskManager);
+        return new ListTaskMessage(taskManager);
     }
 }

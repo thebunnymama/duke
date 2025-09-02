@@ -5,11 +5,11 @@ import task.Task;
 /**
  * Message displayed when a task is successfully marked as done.
  */
-public class MarkTaskMessage implements Message {
+public class TaskMarkedMessage implements Message {
     private final Task task;
     private final int taskIndex;
 
-    public MarkTaskMessage(Task task, int taskIndex) {
+    public TaskMarkedMessage(Task task, int taskIndex) {
         this.task = task;
         this.taskIndex = taskIndex;
     }

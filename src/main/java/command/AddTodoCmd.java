@@ -1,7 +1,7 @@
 package command;
 
 import manager.TaskManager;
-import message.AddTaskMessage;
+import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
 import task.Task;
@@ -10,7 +10,7 @@ import task.TodoTask;
 /**
  * Command to add a simple todo task without any date constraints.
  */
-public class AddTodoCmd extends AddTaskCommand {
+public class AddTodoCmd extends BaseTaskCommand {
     private final String args;
 
     public AddTodoCmd(TaskManager taskManager, String args) {
@@ -28,6 +28,6 @@ public class AddTodoCmd extends AddTaskCommand {
 
         Task todo = new TodoTask(description);
         taskManager.addTask(todo);
-        return new AddTaskMessage(todo, taskManager);
+        return new TaskAddedMessage(todo, taskManager);
     }
 }

@@ -5,11 +5,11 @@ import task.Task;
 /**
  * Message displayed when a completed task is marked as pending (unmarked).
  */
-public class UnmarkTaskMessage implements Message {
+public class TaskUnmarkedMessage implements Message {
     private final Task task;
     private final int taskIndex;
 
-    public UnmarkTaskMessage(Task task, int index) {
+    public TaskUnmarkedMessage(Task task, int index) {
         this.task = task;
         this.taskIndex = index;
     }
