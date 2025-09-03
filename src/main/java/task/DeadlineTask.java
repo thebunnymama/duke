@@ -1,14 +1,22 @@
 package task;
 
+import parser.DateTimeUtil;
+import parser.ParsedDateTime;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
- * Task with a specific date/time. Time format is preserved as entered by user.
+ * Task with a specific date/time.
  */
 public class DeadlineTask extends Task {
-    private String deadline;
+    private final LocalDateTime deadline;
+    private final boolean hasTime;
 
-    public DeadlineTask(String description, String deadline) {
+    public DeadlineTask(String description, ParsedDateTime pdt) {
         super(description);
-        this.deadline = deadline;
+        this.deadline = pdt.getDateTime();
+        this.hasTime = pdt.hasTime();
     }
 
     @Override
@@ -21,7 +29,11 @@ public class DeadlineTask extends Task {
      */
     @Override
     public String toString() {
+        String deadlineString = hasTime
+                ? DateTimeUtil.format(deadline)
+                : DateTimeUtil.formatDateOnly(deadline.toLocalDate());
+
         return super.toString() +
-                String.format(" (by: %s)", deadline);
+                String.format(" (by: %s)", deadlineString);
     }
 }
