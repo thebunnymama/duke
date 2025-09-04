@@ -46,7 +46,7 @@ public class DateTimeUtil {
     }
 
 
-    /* Date time display format e.g. 09 Sep 2025, 10:10 PM */
+    /* Date-time display format e.g. 09 Sep 2025, 10:10 PM */
     private static final DateTimeFormatter DISPLAY_DATETIME =
         DateTimeFormatter.ofPattern("dd MMM yyyy, h:mm a");
 

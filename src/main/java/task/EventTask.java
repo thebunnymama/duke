@@ -1,14 +1,23 @@
 package task;
 
+import parser.DateTimeUtil;
+import parser.ParsedDateTime;
+
+import java.time.LocalDateTime;
+
 /**
- * Task with a start and end date/time. Time format is preserved as entered by user.
+ * Task with a start and end date/time.
  */
 public class EventTask extends Task {
-    private String eventTime;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
+    private final boolean hasTime;
 
-    public EventTask(String description, String eventTime) {
+    public EventTask(String description, ParsedDateTime start, ParsedDateTime end) {
         super(description);
-        this.eventTime = eventTime;
+        this.start = start.getDateTime();
+        this.end = end.getDateTime();
+        this.hasTime = start.hasTime() || end.hasTime();
     }
 
     @Override
@@ -17,11 +26,19 @@ public class EventTask extends Task {
     }
 
     /**
-     * Extends base format with event information in the format "(by: deadline)".
+     * Extends base format with event information in the format "(from: eventStart to: eventEnd)".
      */
     @Override
     public String toString() {
+        String eventStart = hasTime
+                ? DateTimeUtil.format(start)
+                : DateTimeUtil.formatDateOnly(start.toLocalDate());
+
+        String eventEnd = hasTime
+                ? DateTimeUtil.format(end)
+                : DateTimeUtil.formatDateOnly(end.toLocalDate());
+
         return super.toString() +
-                String.format(" (from: %s)", eventTime);
+                String.format(" (from: %s to: %s)", eventStart, eventEnd);
     }
 }

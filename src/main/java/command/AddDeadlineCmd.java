@@ -33,16 +33,16 @@ public class AddDeadlineCmd extends BaseTaskCommand {
         }
 
         String trimmed = args.trim();
-        String[] parts = trimmed.split("\\s*/by\\s*", 2);
+        String[] tokens = trimmed.split("\\s*/by\\s*", 2);
 
         // Expect format: <description> /by <dateTime>
-        if (parts.length < 2
-                || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+        if (tokens.length < 2
+                || tokens[0].trim().isEmpty() || tokens[1].trim().isEmpty()) {
             return new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
         }
 
-        String description = parts[0].trim();
-        String dateString = parts[1].trim();
+        String description = tokens[0].trim();
+        String dateString = tokens[1].trim();
 
         try {
             ParsedDateTime parsed = DateTimeUtil.parse(dateString);
