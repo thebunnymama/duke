@@ -1,7 +1,172 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+                    ___  ___ _____  _____ ______  _____  _____ 
+                    |  \/  ||  ___||  ___|| ___ \|  _  ||_   _|
+                    | .  . || |__  | |__  | |_/ /| | | |  | |  
+                    | |\/| ||  __| |  __| | ___ \| | | |  | |  
+                    | |  | || |___ | |___ | |_/ /\ \_/ /  | |  
+                    \_|  |_/\____/ \____/ \____/  \___/   \_/  
 
+                                                  MeeBot:
+                                                  Hello, I'm MeeBot.
+                                                  Ready to mee-t your needs today!
+                                                  Type 'help' to find out what can mee stir up for you today.
+You: 
+                                                  MeeBot:
+                                                  Here's what mee can do for you:
+                                                  list     : Displays all tasks
+                                                  todo     : Adds todo. Format: todo <description>
+                                                  deadline : Adds deadline. Format: deadline <description> /by
+                                                  <date>
+                                                  event    : Adds event. Format: event <description> /from
+                                                  <date>
+                                                  delete   : Deletes a task by number. Format: delete <index>
+                                                  mark     : Marks a task as done. Format: mark <index>
+                                                  unmark   : Marks a task as pending. Format: unmark <index>
+                                                  bye      : Exits the chatbot
+You: 
+                                                  MeeBot:
+                                                  Your task list is emptier than kopitiam during circuit
+                                                  breaker. Add a task before using this command!
+You: 
+                                                  MeeBot:
+                                                  Your task list is emptier than kopitiam during circuit
+                                                  breaker. Add a task before using this command!
+You: 
+                                                  MeeBot:
+                                                  Your task list is emptier than kopitiam during circuit
+                                                  breaker. Add a task before using this command!
+You: 
+                                                  MeeBot:
+                                                  Your task list is emptier than kopitiam during circuit
+                                                  breaker. Add a task before using this command!
+You: 
+                                                  MeeBot:
+                                                  Your description is emptier than a hawker stall at 3am leh!
+                                                  Give mee something to work with after the command.
+You: 
+                                                  MeeBot:
+                                                  Your description is emptier than a hawker stall at 3am leh!
+                                                  Give mee something to work with after the command.
+You: 
+                                                  MeeBot:
+                                                  Your description is emptier than a hawker stall at 3am leh!
+                                                  Give mee something to work with after the command.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[T][ ] water plants' is now one of the 1 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[D][ ] sign-up hackathon (by: 09 Sep 2025, 6:00 pm)' is now
+                                                  one of the 2 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[D][ ] submit work report (by: 11 Sep 2025)' is now one of
+                                                  the 3 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[D][ ] pay bills (by: 15 Oct 2019)' is now one of the 4
+                                                  tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[D][ ] finish task (by: 19 Sep 2025, 10:10 pm)' is now one
+                                                  of the 5 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[D][ ] report (by: 15 Oct 2019)' is now one of the 6 tasks
+                                                  simmering.
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  Your command is messier than mee goreng!
+                                                  Deadline needs a description and '/by' date.
+                                                  Try: deadline submit report /by 11/11/2025 2359
+You: 
+                                                  MeeBot:
+                                                  1/15/2025 2359 doesn't exist, you inventing new calendar or
+                                                  what?
+                                                  Double check your date and time:
+                                                  • Use real dates (no 30 Feb or 32nd day)
+                                                  • Time is between 0000 to 2359 (24-hour)
+                                                  • Format: day/month/year (not American style!)
+You: 
+                                                  MeeBot:
+                                                  99 Jan 2025 2359 doesn't exist, you inventing new calendar
+                                                  or what?
+                                                  Double check your date and time:
+                                                  • Use real dates (no 30 Feb or 32nd day)
+                                                  • Time is between 0000 to 2359 (24-hour)
+                                                  • Format: day/month/year (not American style!)
+You: 
+                                                  MeeBot:
+                                                  1-11-2011 2660 doesn't exist, you inventing new calendar or
+                                                  what?
+                                                  Double check your date and time:
+                                                  • Use real dates (no 30 Feb or 32nd day)
+                                                  • Time is between 0000 to 2359 (24-hour)
+                                                  • Format: day/month/year (not American style!)
+You: 
+                                                  MeeBot:
+                                                  Incorrect date/time format, please use one of these:
+                                                  • Day/Month/Year: 1/1/2025 or 1-1-2025
+                                                  • Long format: 1 Jan 2025
+                                                  • ISO format: 2025-01-01
+                                                  • Optionally add time in 24-hour format: 2210
+You: 
+                                                  MeeBot:
+                                                  Incorrect date/time format, please use one of these:
+                                                  • Day/Month/Year: 1/1/2025 or 1-1-2025
+                                                  • Long format: 1 Jan 2025
+                                                  • ISO format: 2025-01-01
+                                                  • Optionally add time in 24-hour format: 2210
+You: 
+                                                  MeeBot:
+                                                  Incorrect date/time format, please use one of these:
+                                                  • Day/Month/Year: 1/1/2025 or 1-1-2025
+                                                  • Long format: 1 Jan 2025
+                                                  • ISO format: 2025-01-01
+                                                  • Optionally add time in 24-hour format: 2210
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[E][ ] project meeting (from: 02 Dec 2019, 6:00 pm to: 02
+                                                  Dec 2019, 8:00 pm)' is now one of the 7 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[E][ ] company retreat (from: 02 Dec 2019 to: 06 Dec 2019)'
+                                                  is now one of the 8 tasks simmering.
+You: 
+                                                  MeeBot:
+                                                  Task added!
+                                                  '[E][ ] leadership workshop (from: 09 Sep 2025, 10:00 am to:
+                                                  09 Sep 2025, 6:00 pm)' is now one of the 9 tasks simmering.
+You: 

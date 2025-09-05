@@ -1,0 +1,29 @@
+help
+list
+delete
+mark
+unmark
+todo
+deadline
+event
+todo water plants
+deadline sign-up hackathon /by 9 Sep 2025 1800
+deadline submit work report /by 11-9-2025
+deadline pay bills /by 15/10/2019
+deadline finish task /by 2025-09-19 2210
+deadline          report         /by               2019-10-15  
+deadline task
+deadline /by 2019-10-15
+deadline task /by
+deadline task /by 2019-10-15 /by 1500
+deadline task /BY 2019-10-15
+deadline task /byebye 2019-10-15
+deadline task /by 1/15/2025 2359
+deadline task /by 99 Jan 2025 2359
+deadline task /by 1-11-2011 2660
+deadline task /by Oct 15 2019 2359
+deadline task /by 2359
+deadline task /by !@# 2019-10-15 2359
+event project meeting /from 2/12/2019 1800 /to 2/12/2019 2000
+event company retreat /from 2019-12-02 /to 2019-12-06
+event leadership workshop /from 9 Sep 2025 1000 /to 9 Sep 2025 1800
