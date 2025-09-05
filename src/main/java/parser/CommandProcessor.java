@@ -11,7 +11,7 @@ import message.ErrorMessage;
  * - Look up appropriate command based on command name
  * - Handle parsing errors gracefully
  */
-public class CommandProcessor {
+public final class CommandProcessor {
     private final TaskManager taskManager;
 
     /**
@@ -38,7 +38,7 @@ public class CommandProcessor {
             return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, input));
         }
 
-        // Split input: "deadline finish reading /by Sunday" → ["deadline", "finish reading /by Sunday"]
+        // Split input: "deadline finish task /by 11/11/2011" → ["deadline", "finish task /by 11/11/2011"]
         String[] tokens = input.trim().split("\\s+", 2);
         String command = tokens[0].toLowerCase();
         String args = tokens.length > 1 ? tokens[1] : "";

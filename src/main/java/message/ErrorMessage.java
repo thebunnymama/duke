@@ -27,17 +27,24 @@ public class ErrorMessage implements Message {
             Your task list is emptier than kopitiam during circuit breaker. \
             Add a task before using this command!
             """;
+    public static final String INVALID_DATETIME_VALUE = """
+            %s doesn't exist, you inventing new calendar or what?
+            Double check your date and time:
+            • Use real dates (no 30 Feb or 32nd day)
+            • Time is between 0000 to 2359 (24-hour)
+            • Format: day/month/year (not American style!)
+            """;
 
     // Command format errors
     public static final String DEADLINE_FORMAT = """
             Your command is messier than mee goreng!
-            Deadline needs both description and '/by' date.
-            Try: deadline submit report /by Monday
+            Deadline needs a description and '/by' date.
+            Try: deadline submit report /by 11/11/2025 2359
             """;
     public static final String EVENT_FORMAT = """
             Your command is messier than mee goreng!
             Event needs a task name plus '/from' start time and '/to' end time.
-            Try: event team meeting /from 11/11/2025 2pm /to 11/11/2025 3pm
+            Try: event team meeting /from 11/11/2025 1400 /to 11/11/2025 1500
             """;
     public static final String INVALID_NUMBER_FORMAT = """
             Eh friend, '%s' is not a number lah. Task numbers are whole numbers like 1, 2, 3.

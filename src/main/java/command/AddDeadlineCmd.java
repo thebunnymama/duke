@@ -1,16 +1,15 @@
 package command;
 
+import exception.InvalidDateTimeException;
 import manager.TaskManager;
 import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
-import parser.DateTimeUtil;
+import parser.DateTimeParserUtil;
 import parser.ParsedDateTime;
 import task.DeadlineTask;
 import task.Task;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 
 /**
  * Command to add a new deadline task with a due date.
@@ -32,12 +31,10 @@ public class AddDeadlineCmd extends BaseTaskCommand {
             return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
-        String trimmed = args.trim();
-        String[] tokens = trimmed.split("\\s*/by\\s*", 2);
+        // Split input: "finish task /by 11/11/2011" → ["finish task", "11/11/2011"]
+        String[] tokens = args.split("\\s+/by\\s+");
 
-        // Expect format: <description> /by <dateTime>
-        if (tokens.length < 2
-                || tokens[0].trim().isEmpty() || tokens[1].trim().isEmpty()) {
+        if (tokens.length != 2 || tokens[0].trim().isEmpty() || tokens[1].trim().isEmpty()) {
             return new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
         }
 
@@ -45,12 +42,16 @@ public class AddDeadlineCmd extends BaseTaskCommand {
         String dateString = tokens[1].trim();
 
         try {
-            ParsedDateTime parsed = DateTimeUtil.parse(dateString);
+            ParsedDateTime parsed = DateTimeParserUtil.parse(dateString);
             Task deadline = new DeadlineTask(description, parsed);
             taskManager.addTask(deadline);
             return new TaskAddedMessage(deadline, taskManager);
-        } catch (DateTimeParseException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_DATETIME_FORMAT));
+
+        } catch (InvalidDateTimeException e) {
+            if (e.getType() == InvalidDateTimeException.ErrorTypes.INVALID_DATETIME_VALUE) {
+                return new ErrorMessage(String.format(ErrorMessage.INVALID_DATETIME_VALUE, dateString));
+            }
+            return new ErrorMessage(ErrorMessage.INVALID_DATETIME_FORMAT);
         }
     }
 }

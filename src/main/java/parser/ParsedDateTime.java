@@ -1,21 +1,22 @@
 package parser;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class ParsedDateTime {
-    private final LocalDateTime dateTime;
-    private final boolean hasTime;
+public record ParsedDateTime(LocalDateTime dateTime, boolean hasTime) {
+    private static final DateTimeFormatter DISPLAY_DATETIME =
+            DateTimeFormatter.ofPattern("dd MMM yyyy, h:mm a");
+    private static final DateTimeFormatter DISPLAY_DATE =
+            DateTimeFormatter.ofPattern("dd MMM yyyy");
 
-    public ParsedDateTime(LocalDateTime dateTime, boolean hasTime) {
-        this.dateTime = dateTime;
-        this.hasTime = hasTime;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public boolean hasTime() {
-        return hasTime;
+    /**
+     * Formats a LocalDateTime to display String format.
+     *
+     * @param dateTime the LocalDateTime to format
+     * @param hasTime  whether to include time in the output
+     * @return formatted string in "dd MMM yyyy, h:mm a" or "dd MMM yyyy" format
+     */
+    public static String format(LocalDateTime dateTime, boolean hasTime) {
+        return hasTime ? dateTime.format(DISPLAY_DATETIME) : dateTime.format(DISPLAY_DATE);
     }
 }

@@ -1,9 +1,7 @@
 package task;
 
-import parser.DateTimeUtil;
 import parser.ParsedDateTime;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +13,7 @@ public class DeadlineTask extends Task {
 
     public DeadlineTask(String description, ParsedDateTime pdt) {
         super(description);
-        this.deadline = pdt.getDateTime();
+        this.deadline = pdt.dateTime();
         this.hasTime = pdt.hasTime();
     }
 
@@ -29,9 +27,7 @@ public class DeadlineTask extends Task {
      */
     @Override
     public String toString() {
-        String deadlineString = hasTime
-                ? DateTimeUtil.format(deadline)
-                : DateTimeUtil.formatDateOnly(deadline.toLocalDate());
+        String deadlineString = ParsedDateTime.format(deadline, hasTime);
 
         return super.toString() +
                 String.format(" (by: %s)", deadlineString);
