@@ -7,11 +7,9 @@ import task.Task;
  */
 public class TaskMarkedMessage implements Message {
     private final Task task;
-    private final int taskIndex;
 
-    public TaskMarkedMessage(Task task, int taskIndex) {
+    public TaskMarkedMessage(Task task) {
         this.task = task;
-        this.taskIndex = taskIndex;
     }
 
     @Override

@@ -48,10 +48,10 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
             // Perform the update
             if (markDone) {
                 taskManager.markTaskDone(taskNumber);
-                return new TaskMarkedMessage(task, taskNumber);
+                return new TaskMarkedMessage(task);
             } else {
                 taskManager.unmarkTask(taskNumber);
-                return new TaskUnmarkedMessage(task, taskNumber);
+                return new TaskUnmarkedMessage(task);
             }
 
         } catch (NumberFormatException e) {

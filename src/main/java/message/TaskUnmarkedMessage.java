@@ -7,11 +7,9 @@ import task.Task;
  */
 public class TaskUnmarkedMessage implements Message {
     private final Task task;
-    private final int taskIndex;
 
-    public TaskUnmarkedMessage(Task task, int index) {
+    public TaskUnmarkedMessage(Task task) {
         this.task = task;
-        this.taskIndex = index;
     }
 
     @Override

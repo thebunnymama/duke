@@ -1,6 +1,7 @@
 package command;
 
 import manager.TaskManager;
+import message.ErrorMessage;
 import message.Message;
 import message.ListTaskMessage;
 
@@ -16,6 +17,10 @@ public class ListCmd implements Command {
 
     @Override
     public Message execute() {
+        if (taskManager.isEmpty()) {
+            return new ErrorMessage(ErrorMessage.EMPTY_LIST);
+        }
+
         return new ListTaskMessage(taskManager);
     }
 }

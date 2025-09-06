@@ -16,16 +16,11 @@ public class ListTaskMessage implements Message {
     }
 
     /**
-     * Returns a formatted numbered task list or empty list message if no tasks exist
+     * Returns a formatted numbered task list or empty list message if no tasks exist.
      */
     @Override
     public String message() {
         List<Task> tasks = taskManager.getAllTask();
-
-        if (tasks.isEmpty()) {
-            return "Your task list is emptier than kopitiam during circuit breaker. " +
-                    "Time to add some tasks before you forget everything!";
-        }
 
         // Builds numbered task list with 1-based indexing
         StringBuilder content = new StringBuilder("Here's your current mee-x of responsibilities:\n");
