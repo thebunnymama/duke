@@ -1,15 +1,15 @@
 package command;
 
+import exception.InvalidDateTimeException;
 import manager.TaskManager;
 import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
-import parser.DateTimeUtil;
+import parser.DateTimeParserUtil;
 import parser.ParsedDateTime;
 import task.EventTask;
 import task.Task;
 
-import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,9 +41,13 @@ public class AddEventCmd extends BaseTaskCommand {
             return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
-        // Expect format: <description> /from <startTime to endTime>
+        // Expect format: <description> /from <startTime> /to <endTime>
         Matcher matcher = EVENT_PATTERN.matcher(args.trim());
-        if (!matcher.matches()) {
+
+        if (!matcher.matches()
+                || matcher.group("description").trim().isEmpty()
+                || matcher.group("start").trim().isEmpty()
+                || matcher.group("end").trim().isEmpty()) {
             return new ErrorMessage(ErrorMessage.EVENT_FORMAT);
         }
 
@@ -52,13 +56,24 @@ public class AddEventCmd extends BaseTaskCommand {
         String endString = matcher.group("end").trim();
 
         try {
-            ParsedDateTime start = DateTimeUtil.parse(startString);
-            ParsedDateTime end = DateTimeUtil.parse(endString);
+            ParsedDateTime start = DateTimeParserUtil.parse(startString);
+            ParsedDateTime end = DateTimeParserUtil.parse(endString);
+
+            if (!start.dateTime().isBefore(end.dateTime())) {
+                return new ErrorMessage(ErrorMessage.END_BEFORE_START);
+            }
+
             Task event = new EventTask(description, start, end);
             taskManager.addTask(event);
             return new TaskAddedMessage(event, taskManager);
-        } catch (DateTimeParseException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_DATETIME_FORMAT));
+
+        } catch (InvalidDateTimeException e) {
+            if (e.getType() == InvalidDateTimeException.ErrorTypes.INVALID_DATETIME_VALUE) {
+                return new ErrorMessage(String.format(
+                        ErrorMessage.INVALID_DATETIME_VALUE,
+                        startString + " and/or " + endString));
+            }
+            return new ErrorMessage(ErrorMessage.INVALID_DATETIME_FORMAT);
         }
     }
 }

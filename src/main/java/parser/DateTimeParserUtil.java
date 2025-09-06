@@ -53,6 +53,7 @@ public final class DateTimeParserUtil {
 
     /**
      * Parses a date/time string into a LocalDateTime object using known patterns
+     * If time is omitted from the input, it defaults to 00:00 (midnight)
      *
      * @param dateTimeString the date/time string to parse
      * @return ParsedDateTime object containing the parsed LocalDateTime and time metadata

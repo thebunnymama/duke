@@ -1,6 +1,5 @@
 package task;
 
-import parser.DateTimeUtil;
 import parser.ParsedDateTime;
 
 import java.time.LocalDateTime;
@@ -9,15 +8,14 @@ import java.time.LocalDateTime;
  * Task with a start and end date/time.
  */
 public class EventTask extends Task {
-    private final LocalDateTime start;
-    private final LocalDateTime end;
+    private final LocalDateTime start, end;
     private final boolean hasTime;
 
     public EventTask(String description, ParsedDateTime start, ParsedDateTime end) {
         super(description);
-        this.start = start.getDateTime();
-        this.end = end.getDateTime();
-        this.hasTime = start.hasTime() || end.hasTime();
+        this.start = start.dateTime();
+        this.end = end.dateTime();
+        this.hasTime = start.hasTime() && end.hasTime();
     }
 
     @Override
@@ -30,14 +28,8 @@ public class EventTask extends Task {
      */
     @Override
     public String toString() {
-        String eventStart = hasTime
-                ? DateTimeUtil.format(start)
-                : DateTimeUtil.formatDateOnly(start.toLocalDate());
-
-        String eventEnd = hasTime
-                ? DateTimeUtil.format(end)
-                : DateTimeUtil.formatDateOnly(end.toLocalDate());
-
+        String eventStart = ParsedDateTime.format(start, hasTime);
+        String eventEnd = ParsedDateTime.format(end, hasTime);
         return super.toString() +
                 String.format(" (from: %s to: %s)", eventStart, eventEnd);
     }
