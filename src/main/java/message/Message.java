@@ -10,5 +10,5 @@ public interface Message {
     /**
      * Retrieves the message content for UI components
      */
-    String getMessage();
+    String message();
 }

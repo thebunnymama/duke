@@ -6,10 +6,10 @@ package message;
 public class GoodbyeMessage implements Message {
 
     private static final String BYE_CONTENT =
-            "Ok lah, mee go already. Catch you later!";
+            "Until we mee-t again, stay organized!";
 
     @Override
-    public String getMessage() {
+    public String message() {
         return BYE_CONTENT;
     }
 }

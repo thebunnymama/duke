@@ -17,10 +17,11 @@ public class TaskAddedMessage implements Message {
     }
 
     @Override
-    public String getMessage() {
-        return String.format("Added!\n'%s' is now one of the %d tasks simmering.",
-                task.toString(),
-                taskCount
+    public String message() {
+        return String.format("""
+                Mee-rvelous! I've added that to your bowl... I mean, list!
+                '%s' is now one of the %d tasks simmering.
+                """, task.toString(), taskCount
         );
     }
 }

@@ -15,8 +15,10 @@ public class TaskMarkedMessage implements Message {
     }
 
     @Override
-    public String getMessage() {
-        return String.format("Power! '%s' accomplished like a true blue Singaporean - efficient and effective!",
-                task.toString());
+    public String message() {
+        return String.format("""
+                '%s' accomplished like a true blue Singaporean - efficient and effective!
+                That's one less thing to mee-ddle with!
+                """, task.toString());
     }
 }

@@ -30,7 +30,7 @@ public class MeeBot {
                     break;
                 }
             } catch (RuntimeException e) {
-                ui.displayMessage(new ErrorMessage("Unexpected system error. This shouldn't happen! Try restarting the program"));
+                ui.displayMessage(new ErrorMessage("Mee-stakes happen lah, try again!"));
             }
         }
     }

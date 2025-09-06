@@ -14,7 +14,7 @@ public class HelpMessage implements Message {
     }
 
     @Override
-    public String getMessage() {
+    public String message() {
         StringBuilder content = new StringBuilder("Here's what mee can do for you:\n");
 
         int maxKeywordLength = 0;

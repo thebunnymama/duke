@@ -3,7 +3,7 @@ package message;
 /**
  * Error message container with Singaporean-themed text constants.
  */
-public class ErrorMessage implements Message {
+public record ErrorMessage(String message) implements Message {
 
     // Command and input errors
     public static final String INVALID_COMMAND = """
@@ -70,15 +70,4 @@ public class ErrorMessage implements Message {
             Common fix: If you didn't specify time, it becomes 00:00.
             Make sure both dates have proper timing, or end time is after start time!
             """;
-
-    private final String message;
-
-    public ErrorMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
 }

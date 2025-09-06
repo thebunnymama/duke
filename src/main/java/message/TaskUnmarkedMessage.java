@@ -15,7 +15,7 @@ public class TaskUnmarkedMessage implements Message {
     }
 
     @Override
-    public String getMessage() {
+    public String message() {
         return String.format("'%s' is back to pending - just like when hawker uncle changes his mind about closing time",
                 task.toString());
     }

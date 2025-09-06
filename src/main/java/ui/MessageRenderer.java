@@ -25,7 +25,7 @@ public class MessageRenderer {
      * Preserves original line breaks while applying word wrapping.
      */
     public void render(Message msg) {
-        String content = msg.getMessage();
+        String content = msg.message();
 
         // Calculate padding to right-align message block within console
         int blockPadding = consoleWidth - maxWidth;
