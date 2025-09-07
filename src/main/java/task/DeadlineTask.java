@@ -3,6 +3,8 @@ package task;
 import parser.ParsedDateTime;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Task with a specific date/time.
@@ -20,6 +22,11 @@ public class DeadlineTask extends Task {
     @Override
     public TaskType getTaskType() {
         return TaskType.DEADLINE;
+    }
+
+    @Override
+    public List<LocalDateTime> getDates() {
+        return Collections.singletonList(deadline);
     }
 
     /**

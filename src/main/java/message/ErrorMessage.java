@@ -34,6 +34,15 @@ public record ErrorMessage(String message) implements Message {
             Try: event meeting /from 1/11/2025 /to 1/11/2025
             Or : event meeting /from 1/11/2025 1400 /to 1/11/2025 1500
             """;
+    public static final String FILTER_FORMAT = """
+            Wrong format! Pick at least 1 from these 3 criteria:
+            • task:todo | deadline | event
+            • done:true | false
+            • date:YYYY-MM-DD
+            Try: filter task:deadline
+            Or : filter task:deadline done:false
+            Or : filter task:deadline done:false date:2024-01-15
+            """;
 
     // Task existence and state errors
     public static final String EMPTY_LIST = """

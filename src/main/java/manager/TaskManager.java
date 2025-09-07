@@ -2,7 +2,10 @@ package manager;
 
 import task.Task;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Owns the data model and manages task collection with basic CRUD operations.
@@ -88,6 +91,22 @@ public class TaskManager {
      */
     public boolean isEmpty() {
         return getTotalTasks() < 1;
+    }
+
+    /**
+     * Generic filter method
+     *
+     * @param condition a Predicate that defines which tasks to keep
+     * @return filtered list of tasks
+     */
+    public List<Task> filter(Predicate<Task> condition) {
+        List<Task> filteredResults = new ArrayList<>();
+        for (Task task : taskList) {
+            if (condition.test(task)) {
+                filteredResults.add(task);
+            }
+        }
+        return filteredResults;
     }
 
     /**

@@ -3,6 +3,8 @@ package task;
 import parser.ParsedDateTime;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Task with a start and end date/time.
@@ -21,6 +23,11 @@ public class EventTask extends Task {
     @Override
     public TaskType getTaskType() {
         return TaskType.EVENT;
+    }
+
+    @Override
+    public List<LocalDateTime> getDates() {
+        return Arrays.asList(start, end);
     }
 
     /**

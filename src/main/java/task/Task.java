@@ -1,5 +1,8 @@
 package task;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * Base class for all task types.
  * Tasks are created incomplete and can be toggled between done/undone states.
@@ -7,7 +10,7 @@ package task;
  */
 public abstract class Task {
 
-    private String description;
+    private final String description;
     private boolean isDone;
 
     /**
@@ -25,7 +28,12 @@ public abstract class Task {
      * Gets the type of task - must be implemented by subclasses
      */
     public abstract TaskType getTaskType();
-    
+
+    /**
+     * Gets the dates for the task - must be implemented by subclasses
+     */
+    public abstract List<LocalDateTime> getDates();
+
     public String getDescription() {
         return description;
     }
