@@ -26,7 +26,7 @@ public final class DateTimeParserUtil {
         // Date only patterns
         SLASH_DMY("d/M/yyyy", false),           // 9/9/2025
         DASH_DMY("d-M-yyyy", false),            // 9-9-2025
-        LONG_DMY("d MMM yyyy", false),         // 9 Sep 2025
+        LONG_DMY("d MMM yyyy", false),          // 9 Sep 2025
         ISO_DATE("yyyy-MM-dd", false);          // 2025-09-09
 
         private final DateTimeFormatter formatter;
@@ -57,11 +57,9 @@ public final class DateTimeParserUtil {
      *
      * @param dateTimeString the date/time string to parse
      * @return ParsedDateTime object containing the parsed LocalDateTime and time metadata
-     * @throws DateTimeParseException if the input does not match any supported format
+     * @throws InvalidDateTimeException if the input does not match any supported format
      */
-    public static ParsedDateTime parse(String dateTimeString) throws DateTimeParseException {
-        DateTimeParseException exception = null;
-
+    public static ParsedDateTime parse(String dateTimeString) throws InvalidDateTimeException {
         for (DateTimePattern p : DateTimePattern.values()) {
             try {
                 if (p.hasTime()) {
@@ -72,25 +70,25 @@ public final class DateTimeParserUtil {
                     return new ParsedDateTime(date.atStartOfDay(), false);
                 }
             } catch (DateTimeParseException e) {
-                exception = e;
-                InvalidDateTimeException ex = classifyFailure(dateTimeString, e);
-                if (ex.getType() != InvalidDateTimeException.ErrorTypes.UNSUPPORTED_FORMAT) {
-                    throw ex;   // early exit for INVALID_DATETIME_VALUE
-                }
+                if (isInvalidDateTimeValue(e)) {
+                    throw new InvalidDateTimeException(
+                            InvalidDateTimeException.ErrorTypes.INVALID_DATETIME_VALUE,
+                            dateTimeString, e);
+                }   // Otherwise, continue to next pattern
             }
         }
-        throw classifyFailure(dateTimeString, exception);
+        throw new InvalidDateTimeException(
+                InvalidDateTimeException.ErrorTypes.UNSUPPORTED_FORMAT, dateTimeString);
     }
 
     /**
-     * Classifies a DateTimeParseException failure and creates an appropriate InvalidDateTimeException.
-     *
-     * @param input the input date/time string that failed to parse
-     * @param cause the original DateTimeParseException (can be null)
-     * @return a new InvalidDateTimeException with appropriate classification
+     * Determines if a DateTimeParseException is caused by invalid date-time value,
+     * e.g. day out of range, hour out of range.
      */
-    private static InvalidDateTimeException classifyFailure(String input, DateTimeParseException cause) {
-        InvalidDateTimeException.ErrorTypes type = InvalidDateTimeException.ErrorTypes.classify(cause.getMessage());
-        return new InvalidDateTimeException(type, input, cause);
+    private static boolean isInvalidDateTimeValue(DateTimeParseException e) {
+        if (e.getMessage() == null) return false;
+        String msg = e.getMessage();
+        return msg.contains("MonthOfYear") || msg.contains("DayOfMonth") ||
+                msg.contains("HourOfDay") || msg.contains("MinuteOfHour");
     }
 }

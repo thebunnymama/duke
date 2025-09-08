@@ -1,5 +1,6 @@
 package command;
 
+import exception.InvalidFilterException;
 import exception.InvalidDateTimeException;
 import manager.TaskManager;
 import message.ErrorMessage;
@@ -39,7 +40,7 @@ public class FilterCmd extends BaseTaskCommand {
         }
 
         if (args == null || args.isBlank()) {
-            return new ErrorMessage(ErrorMessage.FILTER_FORMAT);
+            return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
         }
 
         try {
@@ -47,8 +48,9 @@ public class FilterCmd extends BaseTaskCommand {
             List<Task> filteredTasks = taskManager.filter(predicates);
             return new FilteredListMessage(filteredTasks, args);
 
-        } catch (IllegalArgumentException e) {
-            return new ErrorMessage(ErrorMessage.FILTER_FORMAT);
+        } catch (InvalidFilterException e) {
+            String context = e.getType().getContext();
+            return new ErrorMessage(String.format(ErrorMessage.FILTER_FORMAT, context));
         } catch (InvalidDateTimeException e) {
             return new ErrorMessage(ErrorMessage.INVALID_DATETIME_FORMAT);
         }

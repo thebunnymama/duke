@@ -1,5 +1,6 @@
 package manager;
 
+import exception.InvalidTaskIndexException;
 import task.Task;
 
 import java.util.ArrayList;
@@ -113,11 +114,11 @@ public class TaskManager {
      * Utility method to validate the given index is within valid range of task list.
      *
      * @param index 0-based index of the task
-     * @throws IndexOutOfBoundsException if index is invalid
+     * @throws InvalidTaskIndexException if index is invalid
      */
     private void validateIndex(int index) {
         if (index < 0 || index >= taskList.size()) {
-            throw new IndexOutOfBoundsException("Invalid task index: " + index);
+            throw new InvalidTaskIndexException();
         }
     }
 }

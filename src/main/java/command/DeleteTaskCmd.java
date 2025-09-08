@@ -1,7 +1,10 @@
 package command;
 
+import exception.InvalidTaskIndexException;
 import manager.TaskManager;
-import message.*;
+import message.ErrorMessage;
+import message.Message;
+import message.TaskDeletedMessage;
 import task.Task;
 
 /**
@@ -24,23 +27,20 @@ public class DeleteTaskCmd extends BaseTaskCommand {
             return new ErrorMessage(ErrorMessage.EMPTY_LIST);
         }
 
-        String taskNumberString = args;
-
-        if (taskNumberString.isBlank()) {
+        if (args.isBlank()) {
             return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
         }
 
         try {
-            int taskNumber = Integer.parseInt(taskNumberString.trim());
+            int taskNumber = Integer.parseInt(args.trim());
             Task task = taskManager.getTask(taskNumber);
-
             taskManager.deleteTask(taskNumber);
             return new TaskDeletedMessage(task, taskManager);
 
         } catch (NumberFormatException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, taskNumberString));
-        } catch (IndexOutOfBoundsException e) {
-            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, taskNumberString));
+            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, args));
+        } catch (InvalidTaskIndexException e) {
+            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, args));
         }
     }
 }

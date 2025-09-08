@@ -1,5 +1,6 @@
 package command;
 
+import exception.InvalidTaskIndexException;
 import manager.TaskManager;
 import message.ErrorMessage;
 import message.TaskMarkedMessage;
@@ -56,7 +57,7 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
 
         } catch (NumberFormatException e) {
             return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, args));
-        } catch (IndexOutOfBoundsException e) {
+        } catch (InvalidTaskIndexException e) {
             return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, args));
         }
     }
