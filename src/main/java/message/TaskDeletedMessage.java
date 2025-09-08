@@ -18,8 +18,10 @@ public class TaskDeletedMessage implements Message {
 
     @Override
     public String message() {
-        return String.format("Bye bye '%s'!\nRemoved like unwanted beansprouts from your laksa.\n" +
-                        "Now you have %d tasks in the list.",
+        return String.format("""
+                        Bye bye '%s'!
+                        Removed like unwanted beansprouts from your laksa.
+                        Now you have %d tasks in the list.""",
                 task.toString(),
                 taskCount
         );

@@ -15,13 +15,11 @@ import java.util.function.Predicate;
 /**
  * Command to filter tasks based on specified criteria (task type, completion status, date).
  * <p>Usage Notes:
- * <ul>
  * <li>At least one filter criterion must be provided</li>
  * <li>Multiple criteria are combined using logical AND. Example:
  * {@code task:todo & done:true} returns only Todo task that are completed.</li>
  * <li>Conflicting criteria (e.g. {@code task:todo & task:event}) will return empty results
  * since no task can satisfy contradictory conditions</li>
- * </ul>
  */
 public class FilterCmd extends BaseTaskCommand {
     public FilterCmd(TaskManager taskManager, String args) {
@@ -31,7 +29,7 @@ public class FilterCmd extends BaseTaskCommand {
     /**
      * Filters tasks based on all specified criteria using logical AND.
      *
-     * @return FilteredListMessage with tasks matching all criteria, or ErrorMessage if validation fails
+     * @return {@link FilteredListMessage} with tasks matching all criteria, or {@link ErrorMessage} if validation fails
      */
     @Override
     public Message execute() {

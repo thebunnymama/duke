@@ -19,7 +19,7 @@ public class DeleteTaskCmd extends BaseTaskCommand {
     /**
      * Validates user input and removes the specified task from the list.
      *
-     * @return TaskDeletedMessage on success, ErrorMessage on invalid input or task not found
+     * @return {@link TaskDeletedMessage} on success, {@link ErrorMessage} on invalid input or task not found
      */
     @Override
     public Message execute() {

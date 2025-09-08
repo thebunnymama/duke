@@ -6,10 +6,10 @@ import message.ErrorMessage;
 
 /**
  * Central processor for parsing user commands into executable Command objects.
- * Responsibilities:
- * - Parse raw user input into command name and arguments
- * - Look up appropriate command based on command name
- * - Handle parsing errors gracefully
+ * <p>Responsibilities:
+ * <li>Parse raw user input into command name and arguments</li>
+ * <li>Look up appropriate command based on command name</li>
+ * <li>Handle parsing errors gracefully</li>
  */
 public final class CommandProcessor {
     private final TaskManager taskManager;
@@ -17,13 +17,9 @@ public final class CommandProcessor {
     /**
      * Creates a new CommandProcessor with access to the task management system.
      *
-     * @param taskManager the task manager for command execution
-     * @throws IllegalArgumentException if taskManager is null
+     * @param taskManager the task manager for command execution, must not be null
      */
     public CommandProcessor(TaskManager taskManager) {
-        if (taskManager == null) {
-            throw new IllegalArgumentException("TaskManager cannot be null");
-        }
         this.taskManager = taskManager;
     }
 
@@ -31,11 +27,11 @@ public final class CommandProcessor {
      * Splits user input on first whitespace to separate command from arguments.
      *
      * @param input raw user input string
-     * @return Command object ready to execute, or ErrorMessage if parsing fails
+     * @return Command object ready to execute, or {@link ErrorMessage} if parsing fails
      */
     public Command parseCommand(String input) {
         if (input == null || input.isBlank()) {
-            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, input));
+            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND_KEYWORD, input));
         }
 
         // Split input: "deadline finish task /by 11/11/2011" → ["deadline", "finish task /by 11/11/2011"]
@@ -46,7 +42,7 @@ public final class CommandProcessor {
         CommandType cmdType = CommandType.fromKeyword(command);
 
         if (cmdType == null) {
-            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND, command));
+            return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND_KEYWORD, command));
         }
         return cmdType.createCommand(taskManager, args);
     }

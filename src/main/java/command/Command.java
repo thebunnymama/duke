@@ -4,10 +4,9 @@ import message.Message;
 
 /**
  * Command interface for executable user commands.
- * Implementing classes should:
- *  - Contain the logic for executing a specific command
- *  - Return a user-friendly {@link Message} describing the result
- *  - Throw a {@link RuntimeException} if execution fails, which will be caught by CommandProcessor
+ * </p>Implementing classes should:
+ * <li>Contain the logic for executing a specific command</li>
+ * <li>Return a user-friendly {@link Message} describing the result</li>
  */
 public interface Command {
     Message execute();

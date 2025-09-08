@@ -29,7 +29,7 @@ public class HelpMessage implements Message {
             String keyword = command.getKeyword();
             String helpText = command.getHelpText();
 
-            content.append(String.format("%-" + maxKeywordLength + "s : %s\n",
+            content.append(String.format("• %-" + maxKeywordLength + "s : %s\n",
                     keyword, helpText));
         }
         return content.toString();

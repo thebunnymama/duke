@@ -7,13 +7,8 @@ import parser.CommandProcessor;
 
 public class MeeBot {
 
-    private final UserInterface ui;
-    private final TaskManager tm;
-
-    public MeeBot() {
-        this.ui = new UserInterface();
-        this.tm = new TaskManager();
-    }
+    private final UserInterface ui = new UserInterface();;
+    private final TaskManager tm = new TaskManager();
 
     public void run() {
         ui.displayWelcome();

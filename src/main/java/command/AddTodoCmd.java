@@ -19,7 +19,7 @@ public class AddTodoCmd extends BaseTaskCommand {
     /**
      * Creates a todo task with the provided String input.
      *
-     * @return a TaskAddedMessage on success, ErrorMessage if no description is provided
+     * @return a {@link TaskAddedMessage} on success, {@link ErrorMessage} if no description is provided
      */
     @Override
     public Message execute() {
@@ -28,7 +28,6 @@ public class AddTodoCmd extends BaseTaskCommand {
         }
 
         String description = args.trim();
-
         Task todo = new TodoTask(description);
         taskManager.addTask(todo);
         return new TaskAddedMessage(todo, taskManager);

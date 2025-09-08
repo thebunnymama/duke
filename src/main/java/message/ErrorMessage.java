@@ -6,7 +6,7 @@ package message;
 public record ErrorMessage(String message) implements Message {
 
     // Command and input errors
-    public static final String INVALID_COMMAND = """
+    public static final String INVALID_COMMAND_KEYWORD = """
             Sorry, I'm mee-xed up by '%s'. I can help with:
             todo, deadline, event, list, mark, unmark, delete.
             Type 'help' for details.
@@ -35,13 +35,13 @@ public record ErrorMessage(String message) implements Message {
             Or : event meeting /from 1/11/2025 1400 /to 1/11/2025 1500
             """;
     public static final String FILTER_FORMAT = """
-            Wrong format! Pick at least 1 from these 3 criteria:
+            %s Pick at least 1 from these 3 criteria:
             • task:todo | deadline | event
             • done:true | false
             • date:YYYY-MM-DD
             Try: filter task:deadline
-            Or : filter task:deadline done:false
-            Or : filter task:deadline done:false date:2024-01-15
+            Or : filter task:deadline & done:false
+            Or : filter task:deadline & done:false & date:2024-01-15
             """;
 
     // Task existence and state errors
@@ -60,7 +60,7 @@ public record ErrorMessage(String message) implements Message {
 
     // Date time errors
     public static final String INVALID_DATETIME_VALUE = """
-            %s doesn't exist.
+            '%s' doesn't exist.
             Your date/time more fictional than Korean drama plot!
             Double check:
             • Dates : 1-31 for day, 1-12 for month

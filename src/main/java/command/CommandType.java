@@ -16,11 +16,11 @@ public enum CommandType {
             "Format: todo <description>",
             AddTodoCmd::new),
 
-    DEADLINE("deadline", "Add deadline. " +
+    DEADLINE("deadline", "Add deadline.\n" +
             "Format: deadline <description> /by <date>",
             AddDeadlineCmd::new),
 
-    EVENT("event", "Add event. " +
+    EVENT("event", "Add event.\n" +
             "Format: event <description> /from <date>",
             AddEventCmd::new),
 
@@ -28,7 +28,7 @@ public enum CommandType {
             "Format: delete <index>",
             DeleteTaskCmd::new),
 
-    FILTER("filter", "Filter tasks by one or more criteria." +
+    FILTER("filter", "Filter tasks by one or more criteria.\n" +
             "Format: filter <task:todo/deadline/event> <done:true/false> <date:YYYY-MM-DD>",
             FilterCmd::new),
 

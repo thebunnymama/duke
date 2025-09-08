@@ -23,7 +23,7 @@ public class AddDeadlineCmd extends BaseTaskCommand {
     /**
      * Creates a deadline task from String input: "description /by dateTime"
      *
-     * @return TaskAddedMessage on success, ErrorMessage on invalid format
+     * @return {@link TaskAddedMessage} on success, {@link ErrorMessage} on invalid format
      */
     @Override
     public Message execute() {
@@ -32,8 +32,7 @@ public class AddDeadlineCmd extends BaseTaskCommand {
         }
 
         // Split input: "finish task /by 11/11/2011" → ["finish task", "11/11/2011"]
-        String[] tokens = args.split("\\s+/by\\s+");
-
+        String[] tokens = args.split("(?i)\\s*/by\\s*");
         if (tokens.length != 2 || tokens[0].trim().isEmpty() || tokens[1].trim().isEmpty()) {
             return new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
         }

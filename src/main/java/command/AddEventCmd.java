@@ -33,7 +33,7 @@ public class AddEventCmd extends BaseTaskCommand {
     /**
      * Creates an event task from String input: "description /from dateTime /to dateTime"
      *
-     * @return TaskAddedMessage on success, ErrorMessage on invalid format
+     * @return {@link TaskAddedMessage} on success, {@link ErrorMessage} on invalid format
      */
     @Override
     public Message execute() {

@@ -12,7 +12,7 @@ public class FilteredListMessage implements Message {
     private final String filterCriteria;
 
     /**
-     * @param tasks          filtered task list (may be empty)
+     * @param tasks filtered task list (may be empty)
      * @param filterCriteria original filter criteria for display
      */
     public FilteredListMessage(List<Task> tasks, String filterCriteria) {

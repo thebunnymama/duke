@@ -19,9 +19,10 @@ public class TaskAddedMessage implements Message {
     @Override
     public String message() {
         return String.format("""
-                Mee-rvelous! I've added that to your bowl... I mean, list!
-                '%s' is now one of the %d tasks simmering.
-                """, task.toString(), taskCount
+                        Mee-rvelous! I've added that to your bowl... I mean, list!
+                        '%s' is now one of the %d tasks simmering.
+                        """,
+                task.toString(), taskCount
         );
     }
 }

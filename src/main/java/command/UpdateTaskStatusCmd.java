@@ -23,7 +23,7 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
      * Validates input, checks current state to prevent redundant operations, and
      * updates the completion status of the specified task.
      *
-     * @return TaskMarkedMessage or TaskUnmarkedMessage on success, ErrorMessage on failure
+     * @return {@link TaskMarkedMessage} or {@link TaskUnmarkedMessage} on success, {@link ErrorMessage} on failure
      */
     @Override
     public Message execute() {
