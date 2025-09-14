@@ -1,11 +1,13 @@
 package manager;
 
 import exception.InvalidTaskIndexException;
+import storage.Storage;
 import task.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -27,8 +29,24 @@ public class TaskManager {
      * Returns read-only view to prevent external modification of internal list
      * while allowing safe iteration and access for UI components.
      */
-    public List<Task> getAllTask() {
+    public List<Task> getReadOnlyList() {
         return Collections.unmodifiableList(taskList);
+    }
+
+    /**
+     * Returns a modifiable list for authorized operations (e.g., saving to file).
+     * <p>
+     * This method provides controlled access to the internal task list by requiring
+     * a valid Storage.Key instance. Only Storage instance can create valid tokens,
+     * ensuring direct modification of the task list is restricted to authorized operations.
+     *
+     * @param token a valid Storage.Key instance that authorizes privileged access
+     * @return the internal modifiable list of tasks
+     * @throws NullPointerException if key is null
+     */
+    public List<Task> getModifiableList(Storage.Key token) {
+        Objects.requireNonNull(token);
+        return taskList;
     }
 
     /**
@@ -81,7 +99,7 @@ public class TaskManager {
     /**
      * Returns total number of tasks (complete and pending).
      */
-     public int getTotalTasks() {
+    public int getTotalTasks() {
         return taskList.size();
     }
 

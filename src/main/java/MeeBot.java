@@ -2,13 +2,15 @@ import command.Command;
 import manager.TaskManager;
 import message.ErrorMessage;
 import message.Message;
+import storage.Storage;
 import ui.UserInterface;
 import parser.CommandProcessor;
 
 public class MeeBot {
 
-    private final UserInterface ui = new UserInterface();;
+    private final UserInterface ui = new UserInterface();
     private final TaskManager tm = new TaskManager();
+    private final Storage storage = new Storage(tm);
 
     public void run() {
         ui.displayWelcome();
@@ -21,6 +23,8 @@ public class MeeBot {
             try {
                 Message msg = cmd.execute();
                 ui.displayMessage(msg);
+                storage.saveTasks();
+
                 if (cmd.isExit()) {
                     break;
                 }

@@ -20,7 +20,7 @@ public class ListTaskMessage implements Message {
      */
     @Override
     public String message() {
-        List<Task> tasks = taskManager.getAllTask();
+        List<Task> tasks = taskManager.getReadOnlyList();
 
         // Builds numbered task list with 1-based indexing
         StringBuilder content = new StringBuilder("Here's your current mee-x of responsibilities:\n");
