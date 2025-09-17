@@ -1,6 +1,6 @@
 package manager;
 
-import exception.InvalidTaskIndexException;
+import exception.InvalidTaskOperationException;
 import storage.Storage;
 import task.Task;
 
@@ -54,7 +54,7 @@ public class TaskManager {
      *
      * @param userIndex 1-based index of the task
      */
-    public Task getTask(int userIndex) {
+    public Task getTask(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
         return taskList.get(actualIndex);
@@ -65,9 +65,10 @@ public class TaskManager {
      *
      * @param userIndex 1-based index as provided by user
      */
-    public void markTaskDone(int userIndex) {
+    public void markTaskDone(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
+        validateTaskState(actualIndex, true);
         Task task = taskList.get(actualIndex);
         task.markAsDone();
     }
@@ -77,19 +78,22 @@ public class TaskManager {
      *
      * @param userIndex 1-based index as provided by user
      */
-    public void unmarkTask(int userIndex) {
+    public void unmarkTask(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
+        validateTaskState(actualIndex, false);
         Task task = taskList.get(actualIndex);
         task.markAsUndone();
     }
 
     /**
-     * Removes a task by index.
+     * Removes a task from the list by index.
      *
      * @param userIndex 1-based index as provided by user
+     * @throws InvalidTaskOperationException if the index is out of bounds
+     * @see #validateIndex(int)
      */
-    public void deleteTask(int userIndex) {
+    public void deleteTask(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
         validateIndex(actualIndex);
         Task task = taskList.get(actualIndex);
@@ -134,9 +138,31 @@ public class TaskManager {
      * @param index 0-based index of the task
      * @throws InvalidTaskIndexException if index is invalid
      */
-    private void validateIndex(int index) {
+    private void validateTaskState(int index, boolean markDone) throws InvalidTaskOperationException {
+        Task task = taskList.get(index);
+        if (markDone == task.isDone()) {
+            String state = markDone ? "done" : "unmarked";
+            String undo = markDone ? "unmark" : "mark";
+            throw new InvalidTaskOperationException(
+                    InvalidTaskOperationException.ErrorType.TASK_STATE,
+                    state, undo, index + 1
+            );
+        }
+    }
+
+    /**
+     *Validates that the given index is within the valid range of task list.
+     *
+     * @param index 0-based index of the task to validate
+     * @throws InvalidTaskOperationException if index is negative or
+     *         greater than or equal to the list size
+     */
+    private void validateIndex(int index) throws InvalidTaskOperationException {
         if (index < 0 || index >= taskList.size()) {
-            throw new InvalidTaskIndexException();
+            throw new InvalidTaskOperationException(
+                    InvalidTaskOperationException.ErrorType.TASK_NOT_FOUND,
+                    index + 1
+            );
         }
     }
 }

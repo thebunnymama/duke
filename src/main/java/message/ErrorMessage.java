@@ -50,7 +50,7 @@ public record ErrorMessage(String message) implements Message {
             Add a task before using this command!
             """;
     public static final String TASK_NOT_FOUND = """
-            Task %s doesn't exist.
+            Task %d doesn't exist.
             Type 'list' to see what's actually in your task list lah!
             """;
     public static final String TASK_STATE = """

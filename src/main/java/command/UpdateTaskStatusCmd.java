@@ -1,10 +1,12 @@
 package command;
 
-import exception.InvalidTaskIndexException;
+import exception.InvalidTaskOperationException;
+import exception.InvalidTaskOperationException.ErrorType;
+import exception.MeeBotException;
 import manager.TaskManager;
 import message.ErrorMessage;
-import message.TaskMarkedMessage;
 import message.Message;
+import message.TaskMarkedMessage;
 import message.TaskUnmarkedMessage;
 import task.Task;
 
@@ -27,38 +29,34 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
      */
     @Override
     public Message execute() {
-        if (taskManager.isEmpty()) {
-            return new ErrorMessage(ErrorMessage.EMPTY_LIST);
-        }
-
-        if (args == null || args.isBlank()) {
-            return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
-        }
-
         try {
-            int taskNumber = Integer.parseInt(args.trim());
-            Task task = taskManager.getTask(taskNumber);
-
-            // Check if task is already in the desired state
-            String state = markDone ? "done" : "unmarked";
-            String undo = markDone ? "unmark" : "mark";
-            if (markDone == task.isDone()) {
-                return new ErrorMessage(String.format(ErrorMessage.TASK_STATE, state, undo, taskNumber));
+            if (taskManager.isEmpty()) {
+                return new ErrorMessage(ErrorMessage.EMPTY_LIST);
             }
 
-            // Perform the update
+            if (args == null || args.isBlank()) {
+                return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
+            }
+
+            int taskNumber;
+            try {
+                taskNumber = Integer.parseInt(args.trim());
+            } catch (NumberFormatException e) {
+                throw new InvalidTaskOperationException(ErrorType.INVALID_NUMBER_FORMAT, args);
+            }
+
+            Task task;
             if (markDone) {
                 taskManager.markTaskDone(taskNumber);
+                task = taskManager.getTask(taskNumber);
                 return new TaskMarkedMessage(task);
             } else {
                 taskManager.unmarkTask(taskNumber);
+                task = taskManager.getTask(taskNumber);
                 return new TaskUnmarkedMessage(task);
             }
-
-        } catch (NumberFormatException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, args));
-        } catch (InvalidTaskIndexException e) {
-            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, args));
+        } catch (MeeBotException e) {
+            return e.toErrorMessage();
         }
     }
 }

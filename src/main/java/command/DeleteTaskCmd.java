@@ -1,6 +1,7 @@
 package command;
 
-import exception.InvalidTaskIndexException;
+import exception.InvalidTaskOperationException;
+import exception.MeeBotException;
 import manager.TaskManager;
 import message.ErrorMessage;
 import message.Message;
@@ -32,15 +33,20 @@ public class DeleteTaskCmd extends BaseTaskCommand {
         }
 
         try {
-            int taskNumber = Integer.parseInt(args.trim());
+            int taskNumber;
+            try {
+                taskNumber = Integer.parseInt(args.trim());
+            } catch (NumberFormatException e) {
+                throw new InvalidTaskOperationException(
+                        InvalidTaskOperationException.ErrorType.INVALID_NUMBER_FORMAT,
+                        args
+                );
+            }
             Task task = taskManager.getTask(taskNumber);
             taskManager.deleteTask(taskNumber);
             return new TaskDeletedMessage(task, taskManager);
-
-        } catch (NumberFormatException e) {
-            return new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, args));
-        } catch (InvalidTaskIndexException e) {
-            return new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, args));
+        } catch (MeeBotException e) {
+            return e.toErrorMessage();
         }
     }
 }

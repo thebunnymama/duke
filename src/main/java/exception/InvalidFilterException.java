@@ -1,10 +1,11 @@
 package exception;
 
-public class InvalidFilterException extends Exception {
+import message.ErrorMessage;
+public class InvalidFilterException extends MeeBotException {
 
     public enum ErrorType {
-        TOO_MANY_FILTERS("Too many criteria; maximum allowed is 3."),
-        INVALID_FILTER_FORMAT("Invalid filter format."),
+        TOO_MANY_FILTERS("Too many criteria, maximum 3 - you think this is buffet?"),
+        INVALID_FILTER_FORMAT("Wrong filter format."),
         UNKNOWN_FILTER_KEY("Unknown filter key.");
 
         private final String context;
@@ -21,11 +22,25 @@ public class InvalidFilterException extends Exception {
     private final ErrorType type;
 
     public InvalidFilterException(ErrorType type) {
-        super();
+        super(type.getContext());
         this.type = type;
     }
 
     public ErrorType getType() {
         return type;
+    }
+
+    /**
+     * Converts exception to a user-friendly error message. The returned message is mapped
+     * from the error type to an appropriate standardized error message.
+     *
+     * @return an {@link ErrorMessage} containing a formatted error for display to end users
+     */
+    @Override
+    public ErrorMessage toErrorMessage() {
+        return new ErrorMessage(String.format(
+                ErrorMessage.FILTER_FORMAT,
+                type.getContext()
+        ));
     }
 }

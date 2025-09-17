@@ -4,7 +4,7 @@ import message.ErrorMessage;
 import message.Message;
 import storage.Storage;
 import ui.UserInterface;
-import parser.CommandProcessor;
+import util.CommandProcessor;
 
 public class MeeBot {
 

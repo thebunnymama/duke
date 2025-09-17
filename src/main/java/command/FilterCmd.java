@@ -1,12 +1,11 @@
 package command;
 
-import exception.InvalidFilterException;
-import exception.InvalidDateTimeException;
+import exception.MeeBotException;
 import manager.TaskManager;
 import message.ErrorMessage;
 import message.FilteredListMessage;
 import message.Message;
-import parser.TaskFilterFactory;
+import util.TaskFilterParser;
 import task.Task;
 
 import java.util.List;
@@ -42,15 +41,12 @@ public class FilterCmd extends BaseTaskCommand {
         }
 
         try {
-            Predicate<Task> predicates = TaskFilterFactory.chainPredicate(args);
+            Predicate<Task> predicates = TaskFilterParser.chainPredicate(args);
             List<Task> filteredTasks = taskManager.filter(predicates);
             return new FilteredListMessage(filteredTasks, args);
 
-        } catch (InvalidFilterException e) {
-            String context = e.getType().getContext();
-            return new ErrorMessage(String.format(ErrorMessage.FILTER_FORMAT, context));
-        } catch (InvalidDateTimeException e) {
-            return new ErrorMessage(ErrorMessage.INVALID_DATETIME_FORMAT);
+        } catch (MeeBotException e) {
+            return e.toErrorMessage();
         }
     }
 }

@@ -1,7 +1,7 @@
-package parser;
+package util;
 
-import exception.InvalidFilterException;
 import exception.InvalidDateTimeException;
+import exception.InvalidFilterException;
 import task.Task;
 
 import java.time.LocalDate;
@@ -11,20 +11,31 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Factory for creating task filter predicates from string arguments.
- * Supports filtering by task type, completion status, and date.
+ * Utility class for converting string arguments into task filter {@link Predicate}
+ * objects that can be used to filter task collections.
+ * <ul>
+ * <p><strong>Supported Filter Types:</strong></p>
+ * <li><strong>task:</strong> Filters by task type keyword (case-insensitive)</li>
+ * <li><strong>done:</strong> Filters by completion status (true/false)</li>
+ * <li><strong>date:</strong> Filters by date (matches any task with the specified date)</li>
+ * </ul>
+ * <p><strong>Thread Safety:</strong> This class is thread-safe as it contains only static methods
+ * and maintains no mutable state.</p>
  */
-public final class TaskFilterFactory {
-    private TaskFilterFactory() {
+public final class TaskFilterParser {
+    private TaskFilterParser() {
         throw new AssertionError("Utility class should not be instantiated");
     }
 
     /**
-     * Parses filter arguments into a combined predicate.
+     * Parses filter argument string into a combined predicate. All predicates are combined
+     * using logical AND, meaning tasks must satisfy ALL criteria to pass the filter.
      *
-     * @param args '&' delimited filter criteria (e.g. "task:deadline & done:true")
+     * @param args filter criteria string with ampersands(&) delimited filters
+     *             (e.g. "task:deadline & done:true")
      * @return combined predicate that applies all filters with AND logic
-     * @throws InvalidFilterException if filter format is invalid
+     * @throws InvalidFilterException if filter format is invalid or too many filters are provided
+     * @throws InvalidDateTimeException if date filter contains invalid date format
      */
     public static Predicate<Task> chainPredicate(String args) throws InvalidFilterException, InvalidDateTimeException {
         // "task:deadline & done:true & date:2024-01-15" → ["task:deadline", "done:true", "date:2024-01-15"]
@@ -46,11 +57,13 @@ public final class TaskFilterFactory {
     }
 
     /**
-     * Parses a raw filter expressions (key:value) into a predicate.
+     * Parses a single filter token (key:value pair) into a task predicate.
+     * Both key and value must be non-empty.
      *
      * @param token filter token in format "key:value"
      * @return predicate for the specified filter criteria
-     * @throws InvalidFilterException if token format is invalid
+     * @throws InvalidFilterException if token format is invalid (wrong format, empty key/value)
+     * @throws InvalidDateTimeException if date filter contains invalid date format
      */
     public static Predicate<Task> parseFilterToken(String token) throws InvalidFilterException, InvalidDateTimeException {
         // "task:deadline" → ["task", "deadline"]
@@ -66,13 +79,18 @@ public final class TaskFilterFactory {
     }
 
     /**
-     * Creates appropriate predicate based on filter key and value.
-     * Usage of predicates referenced from: <a href="https://www.baeldung.com/java-predicate-chain">...</a>
+     * Factory for creating appropriate predicate based on filter key and value.
+     * Each predicate type has specific validation and matching logic appropriate for its data type.
+     * <p>Predicate chaining technique referenced from:
+     * <a href="https://www.baeldung.com/java-predicate-chain">...</a></p>
+     * <p><strong>Implementation Note:</strong> Date filtering ignores time components and matches
+     * on date only.
      *
-     * @param key filter key (task, done, date)
+     * @param key   filter key (task, done, date)
      * @param value filter value
      * @return predicate that matches the specified criteria
      * @throws InvalidFilterException for unknown keys or invalid values
+     * @throws InvalidDateTimeException if date value cannot be parsed
      */
     public static Predicate<Task> createPredicate(String key, String value) throws InvalidFilterException, InvalidDateTimeException {
         switch (key) {

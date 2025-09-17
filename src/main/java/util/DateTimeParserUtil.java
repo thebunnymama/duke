@@ -1,6 +1,7 @@
-package parser;
+package util;
 
 import exception.InvalidDateTimeException;
+import exception.InvalidDateTimeException.ErrorType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,7 +47,6 @@ public final class DateTimeParserUtil {
         }
     }
 
-    /* Private constructor to prevent instantiation */
     private DateTimeParserUtil() {
         throw new AssertionError("Utility class should not be instantiated");
     }
@@ -57,7 +57,8 @@ public final class DateTimeParserUtil {
      *
      * @param dateTimeString the date/time string to parse
      * @return ParsedDateTime object containing the parsed LocalDateTime and time metadata
-     * @throws InvalidDateTimeException if the input does not match any supported format
+     * @throws InvalidDateTimeException if input does not match any supported format or
+     *                                  if input is not valid date time value
      */
     public static ParsedDateTime parse(String dateTimeString) throws InvalidDateTimeException {
         for (DateTimePattern p : DateTimePattern.values()) {
@@ -72,13 +73,14 @@ public final class DateTimeParserUtil {
             } catch (DateTimeParseException e) {
                 if (isInvalidDateTimeValue(e)) {
                     throw new InvalidDateTimeException(
-                            InvalidDateTimeException.ErrorTypes.INVALID_DATETIME_VALUE,
-                            dateTimeString, e);
+                            ErrorType.INVALID_DATETIME_VALUE,
+                            dateTimeString,
+                            e
+                    );
                 }   // Otherwise, continue to next pattern
             }
         }
-        throw new InvalidDateTimeException(
-                InvalidDateTimeException.ErrorTypes.UNSUPPORTED_FORMAT, dateTimeString);
+        throw new InvalidDateTimeException(ErrorType.UNSUPPORTED_FORMAT, dateTimeString);
     }
 
     /**
