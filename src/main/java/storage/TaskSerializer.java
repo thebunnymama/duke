@@ -8,11 +8,14 @@ import java.util.List;
 
 public class TaskSerializer {
 
+    private TaskSerializer() {
+        throw new AssertionError("Utility class should not be instantiated");
+    }
+
     /**
      * Utility class to serialize Task objects into JSON string representations.
-     * <p>
-     * The JSON format includes common task fields (type, done status, description)
-     * as well as task-specific fields for different task types.
+     * <p>The JSON format includes common task fields (type, done status, description)
+     * as well as task-specific fields for different task types.</p>
      *
      * @see Storage#saveTasks()
      */
@@ -34,7 +37,7 @@ public class TaskSerializer {
     }
 
     /**
-     * Converts single task into JSON string.
+     * Converts a single task into JSON string.
      */
     public static String taskToJson(Task t) {
         // Common fields

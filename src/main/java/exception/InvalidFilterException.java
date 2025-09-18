@@ -1,8 +1,20 @@
 package exception;
 
 import message.ErrorMessage;
+
+/**
+ * Exception thrown when task filter operations encounter invalid input or configuration.
+ * <p>This exception extends {@link MeeBotException} and categorizes filter parsing errors
+ * into specific types by converting itself to appropriate {@link ErrorMessage} objects.</p>
+ *
+ * @see MeeBotException
+ * @see ErrorMessage
+ */
 public class InvalidFilterException extends MeeBotException {
 
+    /**
+     * Enumeration of possible filter error types with associated context messages.
+     */
     public enum ErrorType {
         TOO_MANY_FILTERS("Too many criteria, maximum 3 - you think this is buffet?"),
         INVALID_FILTER_FORMAT("Wrong filter format."),

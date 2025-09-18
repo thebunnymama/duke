@@ -5,14 +5,14 @@ import task.Task;
 import java.util.List;
 
 /**
- * Message displaying filtered task results with 1-based numbering and criteria summary.
+ * Message displaying filtered task results with 1-based numbering and filter criteria summary.
  */
 public class FilteredListMessage implements Message {
     private final List<Task> tasks;
     private final String filterCriteria;
 
     /**
-     * @param tasks filtered task list (may be empty)
+     * @param tasks filtered task list (may be empty); this list is copied defensively
      * @param filterCriteria original filter criteria for display
      */
     public FilteredListMessage(List<Task> tasks, String filterCriteria) {
@@ -22,8 +22,12 @@ public class FilteredListMessage implements Message {
 
     /**
      * Generates formatted message showing filter criteria and numbered task results.
+     * <p>If no tasks match the criteria, returns a helpful message explaining possible
+     * reasons. Otherwise, displays the filter criteria followed by a numbered list
+     * of matching tasks.
      *
-     * @return formatted message with filter summary and filtered task list
+     * @return formatted message with filter summary and task list, or empty result
+     *         explanation if no tasks match
      */
     @Override
     public String message() {

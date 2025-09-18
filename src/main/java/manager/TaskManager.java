@@ -1,13 +1,11 @@
 package manager;
 
 import exception.InvalidTaskOperationException;
-import storage.Storage;
 import task.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -28,6 +26,10 @@ public class TaskManager {
     /**
      * Returns read-only view to prevent external modification of internal list
      * while allowing safe iteration and access for UI components.
+     * <p>Any attempt to modify the returned list will result in an {@code UnsupportedOperationException}.
+     *
+     * @return an unmodifiable view of the current task list
+     * @see Collections#unmodifiableList(List)
      */
     public List<Task> getReadOnlyList() {
         return Collections.unmodifiableList(taskList);
@@ -51,8 +53,11 @@ public class TaskManager {
 
     /**
      * Retrieves a task by its position (1-based index) in the list.
+     * <p>The method internally converts to 0-based indexing for list access.
      *
      * @param userIndex 1-based index of the task
+     * @throws InvalidTaskOperationException if the index is out of bounds (<1 or >the list size)
+     * @see #validateIndex(int)
      */
     public Task getTask(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
@@ -62,8 +67,13 @@ public class TaskManager {
 
     /**
      * Marks a task as completed by index.
+     * <p>If the task is already marked as done, an exception is thrown to prevent redundant operations.
      *
      * @param userIndex 1-based index as provided by user
+     * @throws InvalidTaskOperationException if the index is out of bounds or
+     *         the task is already marked as completed
+     * @see #validateIndex(int)
+     * @see #validateTaskState(int, boolean)
      */
     public void markTaskDone(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
@@ -75,8 +85,13 @@ public class TaskManager {
 
     /**
      * Unmarks a completed task by index.
+     * <p>If the task is already marked as pending, an exception is thrown to prevent redundant operations.
      *
      * @param userIndex 1-based index as provided by user
+     * @throws InvalidTaskOperationException if the index is out of bounds or
+     *         the task is already marked as completed
+     * @see #validateIndex(int)
+     * @see #validateTaskState(int, boolean)
      */
     public void unmarkTask(int userIndex) throws InvalidTaskOperationException {
         int actualIndex = userIndex - 1;    // convert to 0-based index
@@ -110,17 +125,22 @@ public class TaskManager {
     /**
      * Checks if the task list is empty.
      *
-     * @return true if no task exist
+     * @return {@code true} if no task exist
      */
     public boolean isEmpty() {
         return getTotalTasks() < 1;
     }
 
     /**
-     * Generic filter method
+     * Filters tasks from the task list based on the provided predicate condition.
+     * <p> A new list containing only tasks that satisfy the given condition is created.
+     * The original task list remains unchanged. Tasks are evaluated in their current order,
+     * and matching tasks maintain their relative ordering in the result.
      *
-     * @param condition a Predicate that defines which tasks to keep
-     * @return filtered list of tasks
+     * @param condition a Predicate that defines the filtering criteria;
+     *                  tasks for which this returns {@code true} are included
+     * @return a new list containing only tasks that match the condition, or
+     *         an empty list if no tasks match
      */
     public List<Task> filter(Predicate<Task> condition) {
         List<Task> filteredResults = new ArrayList<>();
@@ -133,10 +153,13 @@ public class TaskManager {
     }
 
     /**
-     * Utility method to validate the given index is within valid range of task list.
+     * Validates that a task is not already in the desired completion state to prevent
+     * redundant mark/unmark operations.
      *
-     * @param index 0-based index of the task
-     * @throws InvalidTaskIndexException if index is invalid
+     * @param index 0-based index of the task to validate
+     * @param markDone the desired completion state ({@code true} for done,
+     *        {@code false} for pending)
+     * @throws InvalidTaskOperationException if task already in desired state
      */
     private void validateTaskState(int index, boolean markDone) throws InvalidTaskOperationException {
         Task task = taskList.get(index);

@@ -5,8 +5,8 @@ package message;
  * <p>Implementing classes should:
  * <li>define specific types of messages (e.g., success, error, confirmation) to be displayed to the user.</li>
  */
+@FunctionalInterface
 public interface Message {
-
     /**
      * Retrieves the message content for UI components
      */

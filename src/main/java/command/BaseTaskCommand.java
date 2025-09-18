@@ -4,7 +4,9 @@ import manager.TaskManager;
 
 /**
  * Base class for commands that operate on tasks.
- * Provides common TaskManager dependency injection for task-related operations.
+ * <p>Provides common dependency injection for {@link TaskManager} and command arguments
+ * to all task-related command implementations. Subclasses should focus on implementing
+ * the specific command logic in their {@link #execute()} method.
  */
 public abstract class BaseTaskCommand implements Command {
     protected final TaskManager taskManager;

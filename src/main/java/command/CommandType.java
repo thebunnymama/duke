@@ -5,8 +5,15 @@ import manager.TaskManager;
 import java.util.function.BiFunction;
 
 /**
- * Enum representing all available commands with their factories and help text.
- * Combines command registration, help documentation, and command creation in a single location.
+ * Enumeration of all available commands with their metadata and factories methods.
+ * <p>This enum serves as a central registry that combines:
+ * <ul>
+ * <li>Command keywords for user input parsing</li>
+ * <li>Help text for user documentation</li>
+ * <li>Factory methods for command instantiation</li>
+ * </ul><p>
+ * This design ensures all command metadata is co-located and makes it easy to add
+ * new commands by simply adding a new enum constant.
  */
 public enum CommandType {
     LIST("list", "Display all tasks",
@@ -61,11 +68,15 @@ public enum CommandType {
         return keyword;
     }
 
+    public String getHelpText() {
+        return helpText;
+    }
+
     /**
-     * Maps user input to CommandType enum (case-insensitive).
+     * Looks up a CommandType by keyword and perform case-insensitive matching.
      *
      * @param keyword the user input command to look up
-     * @return matching CommandType if found or null if not found
+     * @return matching CommandType if found or {@code null} if no match is found
      */
     public static CommandType fromKeyword(String keyword) {
         for (CommandType type : values()) {
@@ -74,10 +85,6 @@ public enum CommandType {
             }
         }
         return null; // Not found
-    }
-
-    public String getHelpText() {
-        return helpText;
     }
 
     /**

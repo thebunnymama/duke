@@ -10,7 +10,13 @@ import task.Task;
 import util.TaskIndexParser;
 
 /**
- * Command to mark or unmark a task as done by task number.
+ * Command to update the completion status of a task by its index.
+ * This command can either mark a task as completed or mark it as pending,
+ * depending on the {@code markDone} parameter provided during construction.
+ * The command validates the task index and prevents redundant status changes.
+ *
+ * @see TaskManager#markTaskDone(int)
+ * @see TaskManager#unmarkTask(int)
  */
 public class UpdateTaskStatusCmd extends BaseTaskCommand {
     private final boolean markDone;
@@ -21,10 +27,12 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
     }
 
     /**
-     * Validates input, checks current state to prevent redundant operations, and
-     * updates the completion status of the specified task.
+     * Validates input, task existence, checks current state to prevent redundant
+     * operations, and updates the completion status of the specified task.
      *
-     * @return {@link TaskMarkedMessage} or {@link TaskUnmarkedMessage} on success, {@link ErrorMessage} on failure
+     * @return {@link TaskMarkedMessage} on successful mark done, or
+     *         {@link TaskUnmarkedMessage} on successful unmark, or
+     *         {@link ErrorMessage} if validation fails or task doesn't exist
      */
     @Override
     public Message execute() {

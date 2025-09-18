@@ -31,9 +31,12 @@ public class AddDeadlineCmd extends BaseTaskCommand {
     }
 
     /**
-     * Creates a deadline task from String input: "description /by dateTime"
+     * Creates a deadline task from user input: "description /by dateTime".
+     * <p>Parses the input string to extract the task description and date/time,
+     * creates a new {@link DeadlineTask}, and adds it to the {@link TaskManager}.
      *
-     * @return {@link TaskAddedMessage} on success, {@link ErrorMessage} on invalid format
+     * @return {@link TaskAddedMessage} on successful task creation, or
+     *         {@link ErrorMessage} on invalid format or date parsing
      */
     @Override
     public Message execute() {

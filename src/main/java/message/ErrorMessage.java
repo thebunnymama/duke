@@ -1,7 +1,10 @@
 package message;
 
 /**
- * Error message container with Singaporean-themed text constants.
+ * Immutable message record containing error information for display to users.
+ * <p>This record encapsulates error messages with contextual, user-friendly text
+ * that follows MeeBot's Singaporean's conversational tone and is descriptive enough
+ * to help users understand what went wrong and how to correct their input.
  */
 public record ErrorMessage(String message) implements Message {
 
