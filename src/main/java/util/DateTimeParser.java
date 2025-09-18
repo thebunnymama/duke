@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 /**
  * Utility class for parsing various date and time String inputs into LocalDateTime objects.
  */
-public final class DateTimeParserUtil {
+public final class DateTimeParser {
     /**
      * Enum representing supported date/time input patterns.
      * Reference on how to nest enum in another class:
@@ -47,7 +47,7 @@ public final class DateTimeParserUtil {
         }
     }
 
-    private DateTimeParserUtil() {
+    private DateTimeParser() {
         throw new AssertionError("Utility class should not be instantiated");
     }
 

@@ -1,20 +1,30 @@
 package command;
 
-import exception.InvalidDateTimeException;
+import exception.InvalidTaskFormatException.ErrorType;
+import exception.MeeBotException;
 import manager.TaskManager;
-import message.TaskAddedMessage;
 import message.ErrorMessage;
 import message.Message;
-import parser.DateTimeParserUtil;
-import parser.ParsedDateTime;
+import message.TaskAddedMessage;
 import task.DeadlineTask;
 import task.Task;
+import util.DateTimeParser;
+import util.ParsedDateTime;
+import util.TokenizerUtil;
+
+import java.util.regex.Pattern;
 
 
 /**
  * Command to add a new deadline task with a due date.
  */
 public class AddDeadlineCmd extends BaseTaskCommand {
+
+    /* Lazy regex syntax generated with the help of ChatGPT */
+    private static final Pattern DEADLINE_PATTERN = Pattern.compile(
+            "(.+?)\\s*/by\\s*(.+)",
+            Pattern.CASE_INSENSITIVE
+    );
 
     public AddDeadlineCmd(TaskManager taskManager, String args) {
         super(taskManager, args);
@@ -27,30 +37,22 @@ public class AddDeadlineCmd extends BaseTaskCommand {
      */
     @Override
     public Message execute() {
-        if (args == null || args.isBlank()) {
-            return new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
-        }
-
-        // Split input: "finish task /by 11/11/2011" → ["finish task", "11/11/2011"]
-        String[] tokens = args.split("(?i)\\s*/by\\s*");
-        if (tokens.length != 2 || tokens[0].trim().isEmpty() || tokens[1].trim().isEmpty()) {
-            return new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
-        }
-
-        String description = tokens[0].trim();
-        String dateString = tokens[1].trim();
-
         try {
-            ParsedDateTime parsed = DateTimeParserUtil.parse(dateString);
+            // Split input: "finish task /by 11/11/2011" → ["finish task", "11/11/2011"]
+            String[] tokens = TokenizerUtil.tokenize(
+                    args, DEADLINE_PATTERN, 2, ErrorType.DEADLINE
+            );
+
+            String description = tokens[0];
+            String dateString = tokens[1];
+
+            ParsedDateTime parsed = DateTimeParser.parse(dateString);
             Task deadline = new DeadlineTask(description, parsed);
             taskManager.addTask(deadline);
             return new TaskAddedMessage(deadline, taskManager);
 
-        } catch (InvalidDateTimeException e) {
-            if (e.getType() == InvalidDateTimeException.ErrorTypes.INVALID_DATETIME_VALUE) {
-                return new ErrorMessage(String.format(ErrorMessage.INVALID_DATETIME_VALUE, dateString));
-            }
-            return new ErrorMessage(ErrorMessage.INVALID_DATETIME_FORMAT);
+        } catch (MeeBotException e) {
+            return e.toErrorMessage();
         }
     }
 }

@@ -1,5 +1,6 @@
 package task;
 
+import exception.InvalidDateTimeException;
 import util.ParsedDateTime;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,10 @@ public class EventTask extends Task {
 
     public EventTask(String description, ParsedDateTime start, ParsedDateTime end) {
         super(description);
+        if (end.dateTime().isBefore(start.dateTime())) {
+            throw new InvalidDateTimeException(
+                    InvalidDateTimeException.ErrorType.END_BEFORE_START, "");
+        }
         this.start = start.dateTime();
         this.end = end.dateTime();
         this.hasTime = start.hasTime() && end.hasTime();

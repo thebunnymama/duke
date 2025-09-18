@@ -1,7 +1,5 @@
 package command;
 
-import exception.InvalidTaskOperationException;
-import exception.InvalidTaskOperationException.ErrorType;
 import exception.MeeBotException;
 import manager.TaskManager;
 import message.ErrorMessage;
@@ -9,6 +7,7 @@ import message.Message;
 import message.TaskMarkedMessage;
 import message.TaskUnmarkedMessage;
 import task.Task;
+import util.TaskIndexParser;
 
 /**
  * Command to mark or unmark a task as done by task number.
@@ -30,21 +29,7 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
     @Override
     public Message execute() {
         try {
-            if (taskManager.isEmpty()) {
-                return new ErrorMessage(ErrorMessage.EMPTY_LIST);
-            }
-
-            if (args == null || args.isBlank()) {
-                return new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
-            }
-
-            int taskNumber;
-            try {
-                taskNumber = Integer.parseInt(args.trim());
-            } catch (NumberFormatException e) {
-                throw new InvalidTaskOperationException(ErrorType.INVALID_NUMBER_FORMAT, args);
-            }
-
+            int taskNumber = TaskIndexParser.parseTaskIndex(args, taskManager);
             Task task;
             if (markDone) {
                 taskManager.markTaskDone(taskNumber);

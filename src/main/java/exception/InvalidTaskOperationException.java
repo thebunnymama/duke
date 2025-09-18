@@ -9,7 +9,7 @@ import message.ErrorMessage;
  *
  * @see MeeBotException
  * @see ErrorMessage
-*/
+ */
 public class InvalidTaskOperationException extends MeeBotException {
 
     /**
@@ -18,6 +18,8 @@ public class InvalidTaskOperationException extends MeeBotException {
      * allowing for specific error handling and appropriate user feedback.
      */
     public enum ErrorType {
+        EMPTY_LIST,
+        MISSING_TASK_NUMBER,
         INVALID_NUMBER_FORMAT,
         TASK_NOT_FOUND,
         TASK_STATE
@@ -43,12 +45,11 @@ public class InvalidTaskOperationException extends MeeBotException {
     @Override
     public ErrorMessage toErrorMessage() {
         return switch (type) {
-            case INVALID_NUMBER_FORMAT ->
-                    new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, inputs));
-            case TASK_NOT_FOUND ->
-                    new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, inputs));
-            case TASK_STATE ->
-                    new ErrorMessage(String.format(ErrorMessage.TASK_STATE, inputs));
+            case EMPTY_LIST -> new ErrorMessage(ErrorMessage.EMPTY_LIST);
+            case MISSING_TASK_NUMBER -> new ErrorMessage(ErrorMessage.MISSING_TASK_NUMBER);
+            case INVALID_NUMBER_FORMAT -> new ErrorMessage(String.format(ErrorMessage.INVALID_NUMBER_FORMAT, inputs));
+            case TASK_NOT_FOUND -> new ErrorMessage(String.format(ErrorMessage.TASK_NOT_FOUND, inputs));
+            case TASK_STATE -> new ErrorMessage(String.format(ErrorMessage.TASK_STATE, inputs));
         };
     }
 }
