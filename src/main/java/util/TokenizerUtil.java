@@ -3,6 +3,7 @@ package util;
 import exception.FileContentException;
 import exception.InvalidTaskFormatException;
 import exception.InvalidTaskFormatException.ErrorType;
+import storage.SimpleJsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +73,8 @@ public final class TokenizerUtil {
      * from the array (without surrounding array brackets)
      * @throws IllegalArgumentException if the input is not a valid JSON array format
      */
-    public static List<String> tokenize(String jsonArray) {
-        List<String> tokens = new ArrayList<>();
+    public static List<SimpleJsonObject> tokenize(String jsonArray) {
+        List<SimpleJsonObject> tokens = new ArrayList<>();
         String json = jsonArray.trim();
 
         if (json.equals("[]") || json.isBlank()) return tokens;
@@ -83,17 +84,38 @@ public final class TokenizerUtil {
         }
 
         json = json.substring(1, json.length() - 1).trim(); // Remove surrounding square brackets
+        String[] joArray = json.split("(?<=})\\s*,\\s*(?=\\{)");
 
-        // Handle multiple objects
-        if (json.matches(".*}\\s*,\\s*\\{.*")) {
-            String[] joArray = json.split("(?<=})\\s*,\\s*(?=\\{)");
-            for (String jo : joArray) {
-                tokens.add(jo.trim());
-            }
-        } else {
-            tokens.add("{" + json + "}");   // single object
+        for (String jo : joArray) {
+            tokens.add(parseObject(jo.trim()));
+        }
+        return tokens;
+    }
+
+    private static SimpleJsonObject parseObject(String jsonObject) {
+        if (!jsonObject.startsWith("{") || !jsonObject.endsWith("}")) {
+            throw new FileContentException(FileContentException.ErrorType.INVALID_JSON_FORMAT);
         }
 
-        return tokens;
+        jsonObject = jsonObject.substring(1, jsonObject.length() - 1).trim();
+        if (jsonObject.isEmpty()) {
+            throw new FileContentException(FileContentException.ErrorType.MISSING_FIELD);
+        }
+
+        // Split by commas not inside quotes
+        // Assume },{ format is respected
+        String[] pairs = jsonObject.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        SimpleJsonObject obj = new SimpleJsonObject();
+        for (String pair : pairs) {
+            String[] kv = pair.split(":", 2);
+            if (kv.length != 2) {
+                throw new FileContentException(FileContentException.ErrorType.MISSING_FIELD);
+            }
+            String key = kv[0].trim().replaceAll("^\"|\"$", "");
+            String value = kv[1].trim().replaceAll("^\"|\"$", "");
+            obj.put(key, value);
+        }
+        return obj;
     }
 }

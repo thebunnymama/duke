@@ -37,7 +37,7 @@ public class TaskSerializer {
     }
 
     /**
-     * Converts a single task into JSON string.
+     * Converts a single task into a JSON string representation.
      */
     public static String taskToJson(Task t) {
         // Common fields
@@ -55,7 +55,7 @@ public class TaskSerializer {
         // Append task-specific fields
         String specific = "";
         if (t instanceof DeadlineTask dt) {
-            specific = String.format(",\n  \"deadline\":\"%s\"", dt.getDates());
+            specific = String.format(",\n  \"deadline\":\"%s\"", dt.getDates().get(0));
         } else if (t instanceof EventTask et) {
             specific = String.format(",\n  \"start\":\"%s\",\n  \"end\":\"%s\"",
                     et.getDates().get(0), et.getDates().get(1));

@@ -1,5 +1,6 @@
 package storage;
 
+import exception.MeeBotException;
 import manager.TaskManager;
 import task.Task;
 
@@ -7,38 +8,21 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
  * Handles persistent storage of tasks to and from the file system.
- * <p>
- * This class manages the creation and maintenance of storage directories and files,
+ * <p>This class manages the creation and maintenance of storage directories and files,
  * and provides methods to save tasks in JSON format. It uses a key-based access pattern
  * to ensure that only authorized operations can modify the underlying task data.
  */
 public class Storage {
 
-    /**
-     * Authorization token for accessing modifiable task list.
-     * <p>
-     * This nested class implements a capability-based access pattern where only the
-     * Storage class can create valid token instances. This ensures controlled access
-     * to sensitive operations like direct task list modification.
-     * <p>
-     * The private constructor prevents external instantiation, making this an
-     * effective access control mechanism.
-     */
-    public static final class Key {
-        private Key() {}
-    }
-
-    /** The unique access token for Storage instance */
-    private final Key key = new Key();
     private static final String DEFAULT_DIR = "data";
     private static final String DEFAULT_FILE = "tasks.json";
     private final File dataFile;
     private final TaskManager tm;
-
 
     public Storage(TaskManager tm) {
         this.tm = tm;
@@ -51,7 +35,7 @@ public class Storage {
      *
      * @return the File object representing the storage file
      * @throws RuntimeException if the directory cannot be created or if there's
-     *         an IOException while creating or writing to the storage file
+     *                          an IOException while creating or writing to the storage file
      */
     private File initStorage() {
         File dir = new File(DEFAULT_DIR);
@@ -72,22 +56,46 @@ public class Storage {
     }
 
     /**
-     * Saves all current tasks to the storage file in JSON format.
-     * <p>
-     * Retrieves the current task list from the TaskManager using the authorized
-     * access token, serializes it to JSON format using TaskSerializer, and writes it to
-     * the storage file. The entire file is overwritten with the current state.
+     * Persists all current tasks to the storage file in JSON format.
+     * <p>Retrieves the current task list from the {@link TaskManager}, serializes
+     * it to JSON format using {@link TaskSerializer}, and writes the complete
+     * JSON array to the storage file. The entire file is overwritten with the current state.
      *
      * @throws RuntimeException if there's an IOException while writing to the file
-     * @see TaskManager#getModifiableList(Key)
      * @see TaskSerializer#tasksToJson(List)
      */
     public void saveTasks() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile))) {
-            List<Task> taskList = tm.getModifiableList(key);
+            List<Task> taskList = tm.getReadOnlyList();
             writer.write(TaskSerializer.tasksToJson(taskList));
         } catch (IOException e) {
             throw new RuntimeException("Failed to save tasks", e);
+        }
+    }
+
+    /**
+     * Loads tasks from storage file in JSON format and populates the task list.
+     * <p>
+     * Reconstruct the appropriate task from the JSON data using TaskDeserializer
+     * and adds it to the task list managed by {@link TaskManager}.
+     *
+     * @throws RuntimeException if the file cannot be read due to I/O errors
+     * @see TaskDeserializer#reconstructTask(String)
+     */
+    public void loadTasks() {
+        try {
+            String content = Files.readString(dataFile.toPath()).trim();
+//            System.out. println("Raw JSON content:\n" + content);
+            List<Task> tasks = TaskDeserializer.reconstructTask(content);
+            for (Task task : tasks) {
+                tm.addTask(task);
+            }
+            System.out.printf("%d tasks loaded%n", tm.getTotalTasks());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load tasks: ", e);
+        } catch (MeeBotException e) {
+            System.err.println(e.toErrorMessage());
         }
     }
 }

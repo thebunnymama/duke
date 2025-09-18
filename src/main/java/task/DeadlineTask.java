@@ -1,6 +1,6 @@
 package task;
 
-import parser.ParsedDateTime;
+import util.ParsedDateTime;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -35,7 +35,6 @@ public class DeadlineTask extends Task {
     @Override
     public String toString() {
         String deadlineString = ParsedDateTime.format(deadline, hasTime);
-
         return super.toString() +
                 String.format(" (by: %s)", deadlineString);
     }

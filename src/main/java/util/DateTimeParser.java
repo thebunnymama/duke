@@ -22,7 +22,7 @@ public final class DateTimeParser {
         SLASH_DMYHM("d/M/yyyy HHmm", true),     // 9/9/2025 2210
         DASH_DMYHM("d-M-yyyy HHmm", true),      // 9-9-2025 2210
         LONG_DMYHM("d MMM yyyy HHmm", true),    // 9 Sep 2025 2210
-        ISO_DATE_TIME("yyyy-MM-dd HHmm", true), // 2025-09-09 2210
+        ISO_8601("yyyy-MM-dd'T'HH:mm", true),   // 2025-09-09T22:10
 
         // Date only patterns
         SLASH_DMY("d/M/yyyy", false),           // 9/9/2025
@@ -60,7 +60,9 @@ public final class DateTimeParser {
      * @throws InvalidDateTimeException if input does not match any supported format or
      *                                  if input is not valid date time value
      */
-    public static ParsedDateTime parse(String dateTimeString) throws InvalidDateTimeException {
+    public static ParsedDateTime parse(String dateTimeString)
+            throws InvalidDateTimeException {
+
         for (DateTimePattern p : DateTimePattern.values()) {
             try {
                 if (p.hasTime()) {

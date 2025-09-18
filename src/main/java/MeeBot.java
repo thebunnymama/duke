@@ -6,6 +6,7 @@ import storage.Storage;
 import ui.UserInterface;
 import util.CommandProcessor;
 
+
 public class MeeBot {
 
     private final UserInterface ui = new UserInterface();
@@ -13,6 +14,7 @@ public class MeeBot {
     private final Storage storage = new Storage(tm);
 
     public void run() {
+        storage.loadTasks();
         ui.displayWelcome();
         CommandProcessor processor = new CommandProcessor(tm);
 

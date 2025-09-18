@@ -82,4 +82,9 @@ public record ErrorMessage(String message) implements Message {
             Common fix: If you didn't specify time, it becomes 00:00.
             Make sure both dates have proper timing, or end time is after start time!
             """;
+
+    // File errors
+    public static final String INVALID_JSON_FORMAT = """
+            The file is corrupted lah, did a cat walk over the keyboard when you are saving the file?
+            """;
 }
