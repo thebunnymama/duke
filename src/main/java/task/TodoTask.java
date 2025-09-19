@@ -21,4 +21,9 @@ public class TodoTask extends Task {
     public List<LocalDateTime> getDates() {
         return Collections.emptyList();
     }
+
+    @Override
+    public String toJsonFields() {
+        return "";
+    }
 }

@@ -25,6 +25,10 @@ public class EventTask extends Task {
         this.hasTime = start.hasTime() && end.hasTime();
     }
 
+    public boolean getHasTime() {
+        return hasTime;
+    }
+
     @Override
     public TaskType getTaskType() {
         return TaskType.EVENT;
@@ -33,6 +37,19 @@ public class EventTask extends Task {
     @Override
     public List<LocalDateTime> getDates() {
         return Arrays.asList(start, end);
+    }
+
+    @Override
+    public String toJsonFields() {
+        String startStr = hasTime
+                ? start.toString()
+                : start.toLocalDate().toString();
+
+        String endStr = hasTime
+                ? end.toString()
+                : end.toLocalDate().toString();
+
+        return String.format(",\n  \"start\":\"%s\",\n  \"end\":\"%s\"", startStr, endStr);
     }
 
     /**

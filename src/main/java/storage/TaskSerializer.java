@@ -1,7 +1,5 @@
 package storage;
 
-import task.DeadlineTask;
-import task.EventTask;
 import task.Task;
 
 import java.util.List;
@@ -52,14 +50,7 @@ public class TaskSerializer {
                 t.getDescription().replace("\"", "\\\"")   //"description": "Read \"Java\" book"
         ).stripTrailing();
 
-        // Append task-specific fields
-        String specific = "";
-        if (t instanceof DeadlineTask dt) {
-            specific = String.format(",\n  \"deadline\":\"%s\"", dt.getDates().get(0));
-        } else if (t instanceof EventTask et) {
-            specific = String.format(",\n  \"start\":\"%s\",\n  \"end\":\"%s\"",
-                    et.getDates().get(0), et.getDates().get(1));
-        }
-        return json + specific + "\n}";
+        // Append specific date-time
+        return json + t.toJsonFields() + "\n}";
     }
 }

@@ -19,6 +19,10 @@ public class DeadlineTask extends Task {
         this.hasTime = pdt.hasTime();
     }
 
+    public boolean getHasTime() {
+        return hasTime;
+    }
+
     @Override
     public TaskType getTaskType() {
         return TaskType.DEADLINE;
@@ -27,6 +31,14 @@ public class DeadlineTask extends Task {
     @Override
     public List<LocalDateTime> getDates() {
         return Collections.singletonList(deadline);
+    }
+
+    @Override
+    public String toJsonFields() {
+        String deadlineStr = hasTime
+                ? deadline.toString()
+                : deadline.toLocalDate().toString();
+        return String.format(",\n  \"deadline\":\"%s\"", deadlineStr);
     }
 
     /**

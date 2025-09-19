@@ -34,6 +34,11 @@ public abstract class Task {
      */
     public abstract List<LocalDateTime> getDates();
 
+    /**
+     * Returns a string representation of date - must be implemented by subclasses
+     */
+    public abstract String toJsonFields();
+
     public String getDescription() {
         return description;
     }
