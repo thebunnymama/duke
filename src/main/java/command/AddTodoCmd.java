@@ -36,8 +36,10 @@ public class AddTodoCmd extends BaseTaskCommand {
             );
             String description = tokens[0];
             Task todo = new TodoTask(description);
+
+            boolean wasSorted = taskManager.isSorted();
             taskManager.addTask(todo);
-            return new TaskAddedMessage(todo, taskManager);
+            return new TaskAddedMessage(todo, taskManager, wasSorted);
         } catch (MeeBotException e) {
             return e.toErrorMessage();
         }

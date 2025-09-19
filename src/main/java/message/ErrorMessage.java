@@ -11,8 +11,9 @@ public record ErrorMessage(String message) implements Message {
     // Command and input errors
     public static final String INVALID_COMMAND_KEYWORD = """
             Sorry, I'm mee-xed up by '%s'. I can help with:
-            todo, deadline, event, list, mark, unmark, delete.
+            todo, deadline, event, list, (un)mark, delete, filter, sort.
             Type 'help' for details.
+            
             """;
     public static final String MISSING_DESCRIPTION = """
             Your description is emptier than a hawker stall at 3am leh!
@@ -45,6 +46,12 @@ public record ErrorMessage(String message) implements Message {
             Try: filter task:deadline
             Or : filter task:deadline & done:false
             Or : filter task:deadline & done:false & date:2024-01-15
+            """;
+
+    public static final String SORT_FORMAT = """
+            Your command is more confusing than exiting VivoCity carpark!
+            Try: sort /by date
+            Or : sort /by status
             """;
 
     // Task existence and state errors

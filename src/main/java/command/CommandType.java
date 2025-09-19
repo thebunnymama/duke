@@ -19,6 +19,10 @@ public enum CommandType {
     LIST("list", "Display all tasks",
             (tm, args) -> new ListCmd(tm)),
 
+    SORT("sort", "Display tasks in sorted order\n" +
+            "Format: sort /by <date|status>",
+            SortCmd::new),
+
     TODO("todo", "Add todo. " +
             "Format: todo <description>",
             AddTodoCmd::new),
@@ -36,7 +40,7 @@ public enum CommandType {
             DeleteTaskCmd::new),
 
     FILTER("filter", "Filter tasks by one or more criteria.\n" +
-            "Format: filter <task:todo/deadline/event> <done:true/false> <date:YYYY-MM-DD>",
+            "Format: filter <task:todo|deadline|event> & <done:true|false> & <date:DD/MM/YYYY>",
             FilterCmd::new),
 
     MARK ("mark", "Mark a task as done. " +

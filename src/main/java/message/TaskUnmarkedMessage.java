@@ -7,14 +7,27 @@ import task.Task;
  */
 public class TaskUnmarkedMessage implements Message {
     private final Task task;
+    private final boolean showSortWarning;
 
-    public TaskUnmarkedMessage(Task task) {
+    public TaskUnmarkedMessage(Task task, boolean showSortWarning) {
         this.task = task;
+        this.showSortWarning = showSortWarning;
     }
 
     @Override
     public String message() {
-        return String.format("'%s' is back to pending - just like when hawker uncle changes his mind about closing time",
-                task.toString());
+        String warning = """
+                
+                Mee-ssage: list may not be sorted now, sort again to put it in order.
+                """;
+
+        return String.format("""
+                        '%s' is back to pending - just like when hawker uncle changes his mind about closing time.%s
+                        """,
+                task.toString(),
+                showSortWarning
+                        ? warning
+                        : ""
+        );
     }
 }

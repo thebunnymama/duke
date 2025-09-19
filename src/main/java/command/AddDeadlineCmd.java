@@ -51,8 +51,10 @@ public class AddDeadlineCmd extends BaseTaskCommand {
 
             ParsedDateTime parsed = DateTimeParser.parse(dateString);
             Task deadline = new DeadlineTask(description, parsed);
+
+            boolean wasSorted = taskManager.isSorted();
             taskManager.addTask(deadline);
-            return new TaskAddedMessage(deadline, taskManager);
+            return new TaskAddedMessage(deadline, taskManager, wasSorted);
 
         } catch (MeeBotException e) {
             return e.toErrorMessage();

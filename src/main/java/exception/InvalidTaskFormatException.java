@@ -19,7 +19,8 @@ public class InvalidTaskFormatException extends MeeBotException {
     public enum ErrorType {
         MISSING_DESCRIPTION("Missing description after command keyword."),
         DEADLINE("Deadline format is invalid."),
-        EVENT("Event format is invalid.");
+        EVENT("Event format is invalid."),
+        SORT("Sort format is invalid.");
 
         private final String context;
 
@@ -58,6 +59,7 @@ public class InvalidTaskFormatException extends MeeBotException {
             case MISSING_DESCRIPTION -> new ErrorMessage(ErrorMessage.MISSING_DESCRIPTION);
             case DEADLINE -> new ErrorMessage(ErrorMessage.DEADLINE_FORMAT);
             case EVENT -> new ErrorMessage(ErrorMessage.EVENT_FORMAT);
+            case SORT -> new ErrorMessage(ErrorMessage.SORT_FORMAT);
         };
     }
 }

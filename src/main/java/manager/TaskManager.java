@@ -5,6 +5,7 @@ import task.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -15,12 +16,14 @@ import java.util.function.Predicate;
 public class TaskManager {
 
     private final List<Task> taskList = new ArrayList<>();
+    private boolean isSorted = false;
 
     /**
      * Adds task to end of collection.
      */
     public void addTask(Task task) {
         taskList.add(task);
+        isSorted = false;
     }
 
     /**
@@ -53,7 +56,7 @@ public class TaskManager {
 
     /**
      * Retrieves a task by its position (1-based index) in the list.
-     * <p>The method internally converts to 0-based indexing for list access.
+     * The method internally converts to 0-based indexing for list access.
      *
      * @param userIndex 1-based index of the task
      * @throws InvalidTaskOperationException if the index is out of bounds (<1 or >the list size)
@@ -81,6 +84,7 @@ public class TaskManager {
         validateTaskState(actualIndex, true);
         Task task = taskList.get(actualIndex);
         task.markAsDone();
+        isSorted = false;
     }
 
     /**
@@ -99,6 +103,7 @@ public class TaskManager {
         validateTaskState(actualIndex, false);
         Task task = taskList.get(actualIndex);
         task.markAsUndone();
+        isSorted = false;
     }
 
     /**
@@ -116,10 +121,33 @@ public class TaskManager {
     }
 
     /**
-     * Returns total number of tasks (complete and pending).
+     * Sorts the task list in chronological order based on their first date.
+     * <p>This is a stable sort and uses natural ordering, i.e. tasks without date are placed last.
+     * Comparator implementation referenced from:
+     * <a href="https://dev.java/learn/lambdas/writing-comparators/">...</a>
      */
-    public int getTotalTasks() {
-        return taskList.size();
+    public void sortByDate() {
+        taskList.sort(Comparator.comparing(
+                task -> task.getDates().isEmpty() ? null : task.getDates().get(0),
+                Comparator.nullsLast(Comparator.naturalOrder())
+        ));
+        isSorted = true;
+    }
+
+    /**
+     * Sorts the task list by completion status. This is a stable sort.
+     * <p>Tasks are sorted with incomplete tasks appearing first, followed by completed tasks.
+     */
+    public void sortByStatus() {
+        taskList.sort(Comparator.comparing(Task::isDone));
+        isSorted = true;
+    }
+
+    /**
+     * Checks if the task list was sorted.
+     */
+    public boolean isSorted() {
+        return isSorted;
     }
 
     /**
@@ -129,6 +157,13 @@ public class TaskManager {
      */
     public boolean isEmpty() {
         return getTotalTasks() < 1;
+    }
+
+    /**
+     * Returns total number of tasks (complete and pending).
+     */
+    public int getTotalTasks() {
+        return taskList.size();
     }
 
     /**

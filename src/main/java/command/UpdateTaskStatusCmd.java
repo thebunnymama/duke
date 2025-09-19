@@ -38,15 +38,17 @@ public class UpdateTaskStatusCmd extends BaseTaskCommand {
     public Message execute() {
         try {
             int taskNumber = TaskIndexParser.parseTaskIndex(args, taskManager);
+            boolean wasSorted = taskManager.isSorted();
             Task task;
+
             if (markDone) {
                 taskManager.markTaskDone(taskNumber);
                 task = taskManager.getTask(taskNumber);
-                return new TaskMarkedMessage(task);
+                return new TaskMarkedMessage(task, wasSorted);
             } else {
                 taskManager.unmarkTask(taskNumber);
                 task = taskManager.getTask(taskNumber);
-                return new TaskUnmarkedMessage(task);
+                return new TaskUnmarkedMessage(task, wasSorted);
             }
         } catch (MeeBotException e) {
             return e.toErrorMessage();
