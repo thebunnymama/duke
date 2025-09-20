@@ -49,6 +49,9 @@ public enum CommandType {
             "Format: unmark <index>",
             (tm, args) -> new UpdateTaskStatusCmd(tm, args, false)),
 
+    SEARCH("search", "Find tasks by keywords in the description.\n" +
+            "Format: search <input search terms>",
+            SearchCmd::new),
 
     SORT("sort", "Display tasks in sorted order.\n" +
             "Format: sort /by <date|status>",
