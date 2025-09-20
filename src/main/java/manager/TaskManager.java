@@ -27,54 +27,12 @@ public class TaskManager {
     }
 
     /**
-     * Returns read-only view to prevent external modification of internal list
-     * while allowing safe iteration and access for UI components.
-     * <p>Any attempt to modify the returned list will result in an {@code UnsupportedOperationException}.
-     *
-     * @return an unmodifiable view of the current task list
-     * @see Collections#unmodifiableList(List)
-     */
-    public List<Task> getReadOnlyList() {
-        return Collections.unmodifiableList(taskList);
-    }
-
-    /**
-     * Returns a modifiable list for authorized operations (e.g., saving to file).
-     * <p>
-     * This method provides controlled access to the internal task list by requiring
-     * a valid Storage.Key instance. Only Storage instance can create valid tokens,
-     * ensuring direct modification of the task list is restricted to authorized operations.
-     *
-     * @param token a valid Storage.Key instance that authorizes privileged access
-     * @return the internal modifiable list of tasks
-     * @throws NullPointerException if key is null
-     */
-    public List<Task> getModifiableList(Storage.Key token) {
-        Objects.requireNonNull(token);
-        return taskList;
-    }
-
-    /**
-     * Retrieves a task by its position (1-based index) in the list.
-     * The method internally converts to 0-based indexing for list access.
-     *
-     * @param userIndex 1-based index of the task
-     * @throws InvalidTaskOperationException if the index is out of bounds (<1 or >the list size)
-     * @see #validateIndex(int)
-     */
-    public Task getTask(int userIndex) throws InvalidTaskOperationException {
-        int actualIndex = userIndex - 1;    // convert to 0-based index
-        validateIndex(actualIndex);
-        return taskList.get(actualIndex);
-    }
-
-    /**
      * Marks a task as completed by index.
      * <p>If the task is already marked as done, an exception is thrown to prevent redundant operations.
      *
      * @param userIndex 1-based index as provided by user
      * @throws InvalidTaskOperationException if the index is out of bounds or
-     *         the task is already marked as completed
+     *                                       the task is already marked as completed
      * @see #validateIndex(int)
      * @see #validateTaskState(int, boolean)
      */
@@ -92,7 +50,7 @@ public class TaskManager {
      *
      * @param userIndex 1-based index as provided by user
      * @throws InvalidTaskOperationException if the index is out of bounds or
-     *         the task is already marked as completed
+     *                                       the task is already marked as completed
      * @see #validateIndex(int)
      * @see #validateTaskState(int, boolean)
      */
@@ -141,6 +99,62 @@ public class TaskManager {
     }
 
     /**
+     * Filters tasks from the task list based on the provided predicate condition.
+     * <p> A new list containing only tasks that satisfy the given condition is created.
+     * The original task list remains unchanged. Tasks are evaluated in their current order,
+     * and matching tasks maintain their relative ordering in the result.
+     *
+     * @param condition a Predicate that defines the filtering criteria;
+     *                  tasks for which this returns {@code true} are included
+     * @return a new list containing only tasks that match the condition, or
+     * an empty list if no tasks match
+     */
+    public List<Task> filter(Predicate<Task> condition) {
+        List<Task> filteredResults = new ArrayList<>();
+        for (Task task : taskList) {
+            if (condition.test(task)) {
+                filteredResults.add(task);
+            }
+        }
+        return filteredResults;
+    }
+
+    public List<Task> search(String[] terms) {
+        return filter(task -> {
+            String desc = task.getDescription().toLowerCase();
+            for (String term : terms) {
+                if (desc.contains(term)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Returns read-only view to prevent external modification of internal list
+     * while allowing safe iteration and access for UI components.
+     * <p>Any attempt to modify the returned list will result in an {@code UnsupportedOperationException}.
+     *
+     * @return an unmodifiable view of the current task list
+     */
+    public List<Task> getReadOnlyList() {
+        return Collections.unmodifiableList(taskList);
+    }
+
+    /**
+     * Retrieves a task by its position (1-based index) in the list.
+     * The method internally converts to 0-based indexing for list access.
+     *
+     * @param userIndex 1-based index of the task
+     * @throws InvalidTaskOperationException if the index is out of bounds (<1 or >the list size)
+     * @see #validateIndex(int)
+     */
+    public Task getTask(int userIndex) throws InvalidTaskOperationException {
+        return taskList.get(toActualIndex(userIndex));
+    }
+
+    /**
      * Checks if the task list was sorted.
      */
     public boolean isSorted() {
@@ -163,25 +177,6 @@ public class TaskManager {
         return taskList.size();
     }
 
-    /**
-     * Filters tasks from the task list based on the provided predicate condition.
-     * <p> A new list containing only tasks that satisfy the given condition is created.
-     * The original task list remains unchanged. Tasks are evaluated in their current order,
-     * and matching tasks maintain their relative ordering in the result.
-     *
-     * @param condition a Predicate that defines the filtering criteria;
-     *                  tasks for which this returns {@code true} are included
-     * @return a new list containing only tasks that match the condition, or
-     *         an empty list if no tasks match
-     */
-    public List<Task> filter(Predicate<Task> condition) {
-        List<Task> filteredResults = new ArrayList<>();
-        for (Task task : taskList) {
-            if (condition.test(task)) {
-                filteredResults.add(task);
-            }
-        }
-        return filteredResults;
     /* ==================== Validators ==================== */
 
     private int toActualIndex(int userIndex) throws InvalidTaskOperationException {
@@ -194,9 +189,9 @@ public class TaskManager {
      * Validates that a task is not already in the desired completion state to prevent
      * redundant mark/unmark operations.
      *
-     * @param index 0-based index of the task to validate
+     * @param index    0-based index of the task to validate
      * @param markDone the desired completion state ({@code true} for done,
-     *        {@code false} for pending)
+     *                 {@code false} for pending)
      * @throws InvalidTaskOperationException if task already in desired state
      */
     private void validateTaskState(int index, boolean markDone) throws InvalidTaskOperationException {
@@ -212,11 +207,11 @@ public class TaskManager {
     }
 
     /**
-     *Validates that the given index is within the valid range of task list.
+     * Validates that the given index is within the valid range of task list.
      *
      * @param index 0-based index of the task to validate
      * @throws InvalidTaskOperationException if index is negative or
-     *         greater than or equal to the list size
+     *                                       greater than or equal to the list size
      */
     private void validateIndex(int index) throws InvalidTaskOperationException {
         if (index < 0 || index >= taskList.size()) {

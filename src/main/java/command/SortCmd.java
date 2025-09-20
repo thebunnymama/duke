@@ -20,15 +20,15 @@ import java.util.regex.Pattern;
  * @see TaskManager#sortByStatus()
  */
 public class SortCmd extends BaseTaskCommand {
-    public SortCmd(TaskManager taskManager, String args) {
-        super(taskManager, args);
-    }
-
     /* Lazy regex syntax generated with the help of ChatGPT */
     private static final Pattern SORT_PATTERN = Pattern.compile(
             "/by\\s+(date|status)",
             Pattern.CASE_INSENSITIVE
     );
+
+    public SortCmd(TaskManager taskManager, String args) {
+        super(taskManager, args);
+    }
 
     /**
      * Sorts task based on provided criteria and returns sorted list.
@@ -44,13 +44,11 @@ public class SortCmd extends BaseTaskCommand {
         if (taskManager.isEmpty()) {
             return new ErrorMessage(ErrorMessage.EMPTY_LIST);
         }
-
         try {
             // Split input: "sort /by date|time" → ["date"|"time"]
             String[] tokens = TokenizerUtil.tokenize(
                     args, SORT_PATTERN, 1, ErrorType.SORT
             );
-
             String sortMode = tokens[0].toLowerCase();
             if (sortMode.equals("status")) {
                 taskManager.sortByStatus();

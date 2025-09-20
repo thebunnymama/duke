@@ -27,7 +27,6 @@ public class TaskIndexParser {
         } catch (NumberFormatException e) {
             throw new InvalidTaskOperationException(ErrorType.INVALID_NUMBER_FORMAT, args);
         }
-
         return taskNumber;
     }
 }

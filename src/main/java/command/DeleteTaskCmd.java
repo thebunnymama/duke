@@ -28,7 +28,7 @@ public class DeleteTaskCmd extends BaseTaskCommand {
      */
     @Override
     public Message execute() {
-        try{
+        try {
             int taskNumber = TaskIndexParser.parseTaskIndex(args, taskManager);
             Task task = taskManager.getTask(taskNumber);
             taskManager.deleteTask(taskNumber);

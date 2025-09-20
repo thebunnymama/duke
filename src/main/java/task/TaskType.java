@@ -18,6 +18,7 @@ public enum TaskType {
     public String getKeyword() {
         return keyword;
     }
+
     public String getTaskPrefix() {
         return taskPrefix;
     }

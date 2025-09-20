@@ -40,10 +40,10 @@ public final class CommandProcessor {
         String args = tokens.length > 1 ? tokens[1] : "";
 
         CommandType cmdType = CommandType.fromKeyword(command);
-
         if (cmdType == null) {
             return () -> new ErrorMessage(String.format(ErrorMessage.INVALID_COMMAND_KEYWORD, command));
         }
+
         return cmdType.createCommand(taskManager, args);
     }
 }

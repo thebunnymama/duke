@@ -16,12 +16,14 @@ import java.util.function.BiFunction;
  * new commands by simply adding a new enum constant.
  */
 public enum CommandType {
-    LIST("list", "Display all tasks",
+    HELP("help", "Display help instructions.",
+            (tm, args) -> new HelpCmd()),
+
+    LIST("list", "Display all tasks.",
             (tm, args) -> new ListCmd(tm)),
 
-    SORT("sort", "Display tasks in sorted order\n" +
-            "Format: sort /by <date|status>",
-            SortCmd::new),
+    BYE("bye", "Exits the chatbot",
+            (tm, args) -> new ExitCmd()),
 
     TODO("todo", "Add todo. " +
             "Format: todo <description>",
@@ -39,24 +41,22 @@ public enum CommandType {
             "Format: delete <index>",
             DeleteTaskCmd::new),
 
-    FILTER("filter", "Filter tasks by one or more criteria.\n" +
-            "Format: filter <task:todo|deadline|event> & <done:true|false> & <date:DD/MM/YYYY>",
-            FilterCmd::new),
-
-    MARK ("mark", "Mark a task as done. " +
+    MARK("mark", "Mark a task as done. " +
             "Format: mark <index>",
             (tm, args) -> new UpdateTaskStatusCmd(tm, args, true)),
 
     UNMARK("unmark", "Mark a task as pending. " +
             "Format: unmark <index>",
-                (tm, args) -> new UpdateTaskStatusCmd(tm, args, false)),
-
-    HELP("help", "Display help instructions",
-            (tm, args) -> new HelpCmd()),
+            (tm, args) -> new UpdateTaskStatusCmd(tm, args, false)),
 
 
-    BYE("bye", "Exits the chatbot",
-            (tm, args) -> new ExitCmd());
+    SORT("sort", "Display tasks in sorted order.\n" +
+            "Format: sort /by <date|status>",
+            SortCmd::new),
+
+    FILTER("filter", "Filter tasks by one or more criteria.\n" +
+            "Format: filter <task:todo|deadline|event> & <done:true|false> & <date:DD/MM/YYYY>",
+            FilterCmd::new);
 
     private final String keyword;
     private final String helpText;
@@ -94,7 +94,7 @@ public enum CommandType {
     /**
      * Factory method to create appropriate Command instance.
      *
-     * @param tm the task manager for command execution
+     * @param tm   the task manager for command execution
      * @param args parsed command arguments
      * @return executable Command object
      */

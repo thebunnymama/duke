@@ -52,7 +52,6 @@ public class FilterCmd extends BaseTaskCommand {
             Predicate<Task> predicates = TaskFilterParser.chainPredicate(args);
             List<Task> filteredTasks = taskManager.filter(predicates);
             return new FilteredListMessage(filteredTasks, args);
-
         } catch (MeeBotException e) {
             return e.toErrorMessage();
         }
