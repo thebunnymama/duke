@@ -45,18 +45,12 @@ public class AddEventCmd extends BaseTaskCommand {
                     args, EVENT_PATTERN, 3, ErrorType.EVENT
             );
 
-            String description = tokens[0];
-            String startString = tokens[1];
-            String endString = tokens[2];
-
-            ParsedDateTime start = DateTimeParser.parse(startString);
-            ParsedDateTime end = DateTimeParser.parse(endString);
-
+            ParsedDateTime start = DateTimeParser.parse(tokens[1]);
+            ParsedDateTime end = DateTimeParser.parse(tokens[2]);
             boolean wasSorted = taskManager.isSorted();
-            Task event = new EventTask(description, start, end);
+            Task event = new EventTask(tokens[0], start, end);
             taskManager.addTask(event);
             return new TaskAddedMessage(event, taskManager, wasSorted);
-
         } catch (MeeBotException e) {
             return e.toErrorMessage();
         }

@@ -34,10 +34,11 @@ public final class TaskFilterParser {
      * @param args filter criteria string with ampersands(&) delimited filters
      *             (e.g. "task:deadline & done:true")
      * @return combined predicate that applies all filters with AND logic
-     * @throws InvalidFilterException if filter format is invalid or too many filters are provided
+     * @throws InvalidFilterException   if filter format is invalid or too many filters are provided
      * @throws InvalidDateTimeException if date filter contains invalid date format
      */
-    public static Predicate<Task> chainPredicate(String args) throws InvalidFilterException, InvalidDateTimeException {
+    public static Predicate<Task> chainPredicate(String args)
+            throws InvalidFilterException, InvalidDateTimeException {
         // "task:deadline & done:true & date:2024-01-15" → ["task:deadline", "done:true", "date:2024-01-15"]
         String[] tokens = args.trim().split("\\s*&\\s*");
         if (tokens.length > 3) {
@@ -62,10 +63,11 @@ public final class TaskFilterParser {
      *
      * @param token filter token in format "key:value"
      * @return predicate for the specified filter criteria
-     * @throws InvalidFilterException if token format is invalid (wrong format, empty key/value)
+     * @throws InvalidFilterException   if token format is invalid (wrong format, empty key/value)
      * @throws InvalidDateTimeException if date filter contains invalid date format
      */
-    public static Predicate<Task> parseFilterToken(String token) throws InvalidFilterException, InvalidDateTimeException {
+    public static Predicate<Task> parseFilterToken(String token)
+            throws InvalidFilterException, InvalidDateTimeException {
         // "task:deadline" → ["task", "deadline"]
         String[] parts = token.split(":");
         String key = parts[0].trim().toLowerCase();
@@ -89,10 +91,12 @@ public final class TaskFilterParser {
      * @param key   filter key (task, done, date)
      * @param value filter value
      * @return predicate that matches the specified criteria
-     * @throws InvalidFilterException for unknown keys or invalid values
+     * @throws InvalidFilterException   for unknown keys or invalid values
      * @throws InvalidDateTimeException if date value cannot be parsed
      */
-    public static Predicate<Task> createPredicate(String key, String value) throws InvalidFilterException, InvalidDateTimeException {
+    public static Predicate<Task> createPredicate(String key, String value)
+            throws InvalidFilterException, InvalidDateTimeException {
+
         switch (key) {
         case "task":
             return task -> task.getTaskType().getKeyword().equalsIgnoreCase(value);
@@ -102,7 +106,7 @@ public final class TaskFilterParser {
             return task -> task.isDone() == isDone;
 
         case "date":
-            ParsedDateTime parsed = DateTimeParserUtil.parse(value);
+            ParsedDateTime parsed = DateTimeParser.parse(value);
             LocalDate filterDate = parsed.dateTime().toLocalDate(); // ignore time
 
             return task -> {

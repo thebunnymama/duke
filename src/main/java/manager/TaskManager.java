@@ -79,8 +79,7 @@ public class TaskManager {
      * @see #validateTaskState(int, boolean)
      */
     public void markTaskDone(int userIndex) throws InvalidTaskOperationException {
-        int actualIndex = userIndex - 1;    // convert to 0-based index
-        validateIndex(actualIndex);
+        int actualIndex = toActualIndex(userIndex);
         validateTaskState(actualIndex, true);
         Task task = taskList.get(actualIndex);
         task.markAsDone();
@@ -98,8 +97,7 @@ public class TaskManager {
      * @see #validateTaskState(int, boolean)
      */
     public void unmarkTask(int userIndex) throws InvalidTaskOperationException {
-        int actualIndex = userIndex - 1;    // convert to 0-based index
-        validateIndex(actualIndex);
+        int actualIndex = toActualIndex(userIndex);
         validateTaskState(actualIndex, false);
         Task task = taskList.get(actualIndex);
         task.markAsUndone();
@@ -114,8 +112,7 @@ public class TaskManager {
      * @see #validateIndex(int)
      */
     public void deleteTask(int userIndex) throws InvalidTaskOperationException {
-        int actualIndex = userIndex - 1;    // convert to 0-based index
-        validateIndex(actualIndex);
+        int actualIndex = toActualIndex(userIndex);
         Task task = taskList.get(actualIndex);
         taskList.remove(task);
     }
@@ -185,6 +182,12 @@ public class TaskManager {
             }
         }
         return filteredResults;
+    /* ==================== Validators ==================== */
+
+    private int toActualIndex(int userIndex) throws InvalidTaskOperationException {
+        int actualIndex = userIndex - 1;    // convert to 0-based index
+        validateIndex(actualIndex);
+        return actualIndex;
     }
 
     /**

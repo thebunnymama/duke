@@ -1,6 +1,5 @@
 package command;
 
-import exception.InvalidTaskFormatException;
 import exception.MeeBotException;
 import manager.TaskManager;
 import message.ErrorMessage;
@@ -32,11 +31,10 @@ public class AddTodoCmd extends BaseTaskCommand {
     public Message execute() {
         try {
             String[] tokens = TokenizerUtil.tokenize(
-                    args, TODO_PATTERN, 1, InvalidTaskFormatException.ErrorType.MISSING_DESCRIPTION
+                    args, TODO_PATTERN, 1, null
             );
-            String description = tokens[0];
-            Task todo = new TodoTask(description);
 
+            Task todo = new TodoTask(tokens[0]);
             boolean wasSorted = taskManager.isSorted();
             taskManager.addTask(todo);
             return new TaskAddedMessage(todo, taskManager, wasSorted);
