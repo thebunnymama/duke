@@ -26,4 +26,9 @@ public class TodoTask extends Task {
     public String toJsonFields() {
         return "";
     }
+
+    @Override
+    public Task copy() {
+        return new TodoTask(this.getDescription());
+    }
 }

@@ -39,6 +39,11 @@ public abstract class Task {
      */
     public abstract String toJsonFields();
 
+    /**
+     * Create a new Task with the same fields - must be implemented by subclasses
+     */
+    public abstract Task copy();
+
     public String getDescription() {
         return description;
     }

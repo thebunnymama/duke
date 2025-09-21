@@ -19,10 +19,6 @@ public class DeadlineTask extends Task {
         this.hasTime = pdt.hasTime();
     }
 
-    public boolean getHasTime() {
-        return hasTime;
-    }
-
     @Override
     public TaskType getTaskType() {
         return TaskType.DEADLINE;
@@ -39,6 +35,12 @@ public class DeadlineTask extends Task {
                 ? deadline.toString()
                 : deadline.toLocalDate().toString();
         return String.format(",\n  \"deadline\":\"%s\"", deadlineStr);
+    }
+
+    @Override
+    public Task copy() {
+        ParsedDateTime pdt = new ParsedDateTime(this.deadline, this.hasTime);
+        return new DeadlineTask(this.getDescription(), pdt);
     }
 
     /**

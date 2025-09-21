@@ -25,10 +25,6 @@ public class EventTask extends Task {
         this.hasTime = start.hasTime() && end.hasTime();
     }
 
-    public boolean getHasTime() {
-        return hasTime;
-    }
-
     @Override
     public TaskType getTaskType() {
         return TaskType.EVENT;
@@ -50,6 +46,13 @@ public class EventTask extends Task {
                 : end.toLocalDate().toString();
 
         return String.format(",\n  \"start\":\"%s\",\n  \"end\":\"%s\"", startStr, endStr);
+    }
+
+    @Override
+    public Task copy() {
+        ParsedDateTime start = new ParsedDateTime(this.start, this.hasTime);
+        ParsedDateTime end = new ParsedDateTime(this.end, this.hasTime);
+        return new EventTask(this.getDescription(), start, end);
     }
 
     /**
